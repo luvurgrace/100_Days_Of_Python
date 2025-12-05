@@ -5,7 +5,7 @@ import datetime as dt
 import pandas
 
 my_gmail = "alesspy7@gmail.com"
-my_pass = "hnabgiqrmsrbzvwx"
+my_pass = "hiden_pass"
 my_yahoo = "lutik.nikita228@gmail.com"
 now = dt.datetime.now()
 today = (now.month, now.day)
