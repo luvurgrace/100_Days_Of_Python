@@ -25,5 +25,3 @@ if today == 3: # if today is Thursday
 
 # date_of_birth = dt.datetime(year = 2004, month = 9, day = 2, hour = 7, minute = 30)
 # print(date_of_birth)
-
-
