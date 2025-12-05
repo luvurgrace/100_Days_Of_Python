@@ -1,4 +1,3 @@
-##################### Hard Starting Project ######################
 import random
 import smtplib
 import datetime as dt
