@@ -3,7 +3,7 @@ import datetime as dt
 from random import choice
 
 my_gmail = "alesspy7@gmail.com"
-my_pass = "hnabgiqrmsrbzvwx"
+my_pass = "hiden_pass"
 my_yahoo = "lutik.nikita228@gmail.com"
 now = dt.datetime.now()
 today = now.weekday()
@@ -25,4 +25,5 @@ if today == 3: # if today is Thursday
 
 # date_of_birth = dt.datetime(year = 2004, month = 9, day = 2, hour = 7, minute = 30)
 # print(date_of_birth)
+
 
