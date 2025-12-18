@@ -65,4 +65,7 @@ while True:
         break
 
 print("Game over!")
+
 driver.quit()
+
+# Final cookies per second: 128.4 (for 5 mins)
