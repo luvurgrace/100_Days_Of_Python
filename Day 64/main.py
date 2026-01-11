@@ -35,28 +35,65 @@ class Movie(db.Model):
     review: Mapped[str] = mapped_column(String(250), nullable=True)
     img_url: Mapped[str] = mapped_column(String(250), nullable=False)
 
+class MovieForm(FlaskForm):
+    movie_rating = StringField('Movie rating out of 10', validators=[DataRequired()])
+    movie_review = StringField('Review', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+class AddMovieForm(FlaskForm):
+    title = StringField('Movie Title', validators=[DataRequired()])
+    submit = SubmitField('Add Movie')
 
 with app.app_context():
     db.create_all()
 
-new_movie = Movie(
-    title="Interstellar",
-    year=2014,
-    description="A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival as Earth faces environmental collapse.",
-    rating=8.6,
-    ranking=7,
-    review="A visually stunning and emotionally powerful journey through space and time.",
-    img_url="https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6JMgEwQI9.jpg"
-)
-
-with app.app_context():
-    db.session.add(new_movie)
-    db.session.commit()
+# new_movie = Movie(
+#     title="Phone Booth",
+#     year=2002,
+#     description="Publicist Stuart Shepard finds himself trapped in a phone booth, pinned down by an extortionist's sniper rifle. Unable to leave or receive outside help, Stuart's negotiation with the caller leads to a jaw-dropping climax.",
+#     rating=7.3,
+#     ranking=10,
+#     review="My favourite character was the caller.",
+#     img_url="https://image.tmdb.org/t/p/w500/tjrX2oWRCM3Tvarz38zlZM7Uc10.jpg"
+# )
+#
+# with app.app_context():
+#     db.session.add(new_movie)
+#     db.session.commit()
 
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    movies = db.session.execute(db.select(Movie)).scalars().all()
+    return render_template("index.html", movies=movies)
+
+@app.route("/edit", methods=["GET", "POST"])
+def rate_movie():
+    form = MovieForm() # create a form
+    movie_id = request.args.get("id") # return film's id
+    movie = db.get_or_404(Movie, movie_id) # search for film in database
+    if form.validate_on_submit(): # if form is submitted
+        movie.rating = float(form.movie_rating.data) # rating update
+        movie.review = form.movie_review.data # review update
+        db.session.commit() # confirm changes
+        return redirect(url_for('home'))
+    return render_template("edit.html", movie=movie, form=form)
+
+@app.route("/delete")
+def delete_movie():
+    movie_id = request.args.get("id")
+    movie_to_delete = db.get_or_404(Movie, movie_id)
+    db.session.delete(movie_to_delete)
+    db.session.commit()
+    print(movie_to_delete)
+    return redirect(url_for('home'))
+
+@app.route("/add")
+def add_movie():
+    add_form = AddMovieForm()
+    if add_form.validate_on_submit():
+        print(add_form.login.data)
+    return render_template("add.html", form=add_form)
 
 
 if __name__ == '__main__':
