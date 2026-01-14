@@ -105,6 +105,11 @@ def add_movie():
         return render_template("select.html", options=data)
     return render_template("add.html", form=add_form)
 
+@app.route("/find")
+def find_movie():
+    movie_api_id = request.args.get("id")
+    if movie_api_id:
+        pass
 
 if __name__ == '__main__':
     app.run()  # delete Debut mode, since Flask actually starts two processes -
