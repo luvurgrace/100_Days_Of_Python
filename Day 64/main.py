@@ -109,7 +109,20 @@ def add_movie():
 def find_movie():
     movie_api_id = request.args.get("id")
     if movie_api_id:
-        pass
+        movie_api_url = f"{MOVIE_DB_SEARCH_URL}/{movie_api_id}"
+        response = requests.get(movie_api_url, params={
+            "api_key": MOVIE_DB_API_KEY,
+            "language": "en-US"
+        })
+        data = response.json()
+        new_movie = Movie(
+            title = data["title"],
+            year = data["release_date"].split("-")[0],
+            img_url = f"{MOVIE_DB_SEARCH_URL}{data["poster_path"]}",
+            description = data["overview"]
+        )
+
+
 
 if __name__ == '__main__':
     app.run()  # delete Debut mode, since Flask actually starts two processes -
