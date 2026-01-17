@@ -14,6 +14,8 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 MOVIE_DB_SEARCH_URL = "https://api.themoviedb.org/3/search/movie"
+MOVIE_DB_INFO_URL = "https://api.themoviedb.org/3/movie"
+MOVIE_DB_IMAGE_URL = "https://image.tmdb.org/t/p/w500"
 MOVIE_DB_API_KEY = os.getenv("MOVIE_DB_API_KEY")
 Bootstrap5(app)
 
@@ -114,14 +116,19 @@ def find_movie():
             "api_key": MOVIE_DB_API_KEY,
             "language": "en-US"
         })
+
         data = response.json()
+        print(data)
+
         new_movie = Movie(
             title = data["title"],
             year = data["release_date"].split("-")[0],
             img_url = f"{MOVIE_DB_SEARCH_URL}{data["poster_path"]}",
             description = data["overview"]
         )
-
+        db.session.add(new_movie)
+        db.session.commit()
+        return redirect(url_for("home"))
 
 
 if __name__ == '__main__':
