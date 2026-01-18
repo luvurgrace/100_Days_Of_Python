@@ -75,7 +75,13 @@ with app.app_context():
 
 @app.route("/")
 def home():
-    movies = db.session.execute(db.select(Movie)).scalars().all()
+    movies = db.session.execute(
+        db.select(Movie).order_by(Movie.rating.desc())
+    ).scalars().all()
+
+    for i, movie in enumerate(movies):
+        movie.ranking = i + 1
+    db.session.commit()
     return render_template("index.html", movies=movies)
 
 
