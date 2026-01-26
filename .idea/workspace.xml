@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="79429bd5-011a-4ba2-be83-71e2b3e308c9" name="Changes" comment="Tasks from day 66 (completed)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Day 66/instance/cafes.db" beforeDir="false" afterPath="$PROJECT_DIR$/Day 66/instance/cafes.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Day 66/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Day 66/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -135,7 +136,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769028309224</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Tasks from day 66 (completed)">
+      <option name="closed" value="true" />
+      <created>1769114536002</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1769114536002</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
