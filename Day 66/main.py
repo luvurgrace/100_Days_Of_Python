@@ -127,7 +127,7 @@ def add_cafe():
 def patch_new_price(cafe_id):
     new_price = request.args.get("new_price")
     try:
-        cafe = db.get(Cafe, cafe_id)
+        cafe = db.session.get(Cafe, cafe_id)
     except AttributeError:
         return jsonify(error={"Not Found": "Sorry a cafe with that id was not found in the database."}), 404
     else:
