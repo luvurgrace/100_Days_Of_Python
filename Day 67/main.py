@@ -65,7 +65,7 @@ class CreatePostForm(FlaskForm):
     submit = SubmitField("Submit Post")
 
 
-@app.route('/all')
+@app.route('/')
 def get_all_posts():
     result = db.session.execute(db.select(BlogPost).order_by(BlogPost.id))
     all_posts = result.scalars().all()
