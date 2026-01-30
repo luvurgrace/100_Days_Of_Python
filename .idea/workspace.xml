@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79429bd5-011a-4ba2-be83-71e2b3e308c9" name="Changes" comment="Tasks from day 69 (completed)">
-      <change afterPath="$PROJECT_DIR$/Day 70/gitlearn.txt" afterDir="false" />
+    <list default="true" id="79429bd5-011a-4ba2-be83-71e2b3e308c9" name="Changes" comment="Tasks from day 70 (completed)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -282,7 +281,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769776267462</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Tasks from day 70 (completed)">
+      <option name="closed" value="true" />
+      <created>1769801345351</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1769801345351</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -305,6 +312,7 @@
     <MESSAGE value="Tasks from day 68 (completed)" />
     <MESSAGE value="gitignore css bootstrap" />
     <MESSAGE value="Tasks from day 69 (completed)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tasks from day 69 (completed)" />
+    <MESSAGE value="Tasks from day 70 (completed)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tasks from day 70 (completed)" />
   </component>
 </project>
