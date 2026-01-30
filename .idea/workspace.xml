@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79429bd5-011a-4ba2-be83-71e2b3e308c9" name="Changes" comment="gitignore css bootstrap">
-      <change beforePath="$PROJECT_DIR$/.idea/100_Days_Of_Python.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/100_Days_Of_Python.iml" afterDir="false" />
+    <list default="true" id="79429bd5-011a-4ba2-be83-71e2b3e308c9" name="Changes" comment="Tasks from day 69 (completed)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Day 69/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Day 69/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Day 69/instance/posts.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Day 69/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Day 69/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Day 69/templates/post.html" beforeDir="false" afterPath="$PROJECT_DIR$/Day 69/templates/post.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -266,7 +269,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769608741467</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Tasks from day 69 (completed)">
+      <option name="closed" value="true" />
+      <created>1769720341460</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1769720341460</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -288,6 +299,7 @@
     <MESSAGE value="Tasks from day 67 (completed)" />
     <MESSAGE value="Tasks from day 68 (completed)" />
     <MESSAGE value="gitignore css bootstrap" />
-    <option name="LAST_COMMIT_MESSAGE" value="gitignore css bootstrap" />
+    <MESSAGE value="Tasks from day 69 (completed)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tasks from day 69 (completed)" />
   </component>
 </project>

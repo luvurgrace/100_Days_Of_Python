@@ -11,7 +11,7 @@ from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship
 # Import your forms from the forms.py
-from forms import CreatePostForm, RegisterForm, LoginForm
+from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 
 '''
 Make sure the required packages are installed: 
@@ -33,6 +33,15 @@ Bootstrap5(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+gravatar = Gravatar(app,
+                    size=100,
+                    rating='g',
+                    default='retro',
+                    force_default=False,
+                    force_lower=False,
+                    use_ssl=False,
+                    base_url=None)
 
 
 @login_manager.user_loader
@@ -68,6 +77,8 @@ class User(UserMixin, db.Model):
     password: Mapped[str] = mapped_column(String(100))
     name: Mapped[str] = mapped_column(String(100))
     posts = relationship("BlogPost", back_populates="author")
+    comments = relationship("Comment", back_populates="comment_author") # "Связано с атрибутом comment_author в Comment"
+
 
 class BlogPost(db.Model):
     __tablename__ = "blog_posts"
@@ -79,6 +90,19 @@ class BlogPost(db.Model):
     date: Mapped[str] = mapped_column(String(250), nullable=False)
     body: Mapped[str] = mapped_column(Text, nullable=False)
     img_url: Mapped[str] = mapped_column(String(250), nullable=False)
+    comments = relationship("Comment", back_populates="parent_post")
+
+
+class Comment(db.Model):
+    __tablename__ = "comments"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    text: Mapped[str] = mapped_column(Text, nullable=False)
+
+    author_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("users.id"))
+    comment_author = relationship("User", back_populates="comments")
+
+    post_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("blog_posts.id")) # table's name
+    parent_post = relationship("BlogPost", back_populates="comments")
 
 
 with app.app_context():
@@ -149,12 +173,22 @@ def get_all_posts():
     return render_template("index.html", all_posts=posts, current_user=current_user)
 
 
-
 # TODO: Allow logged-in users to comment on posts
-@app.route("/post/<int:post_id>")
+@app.route("/post/<int:post_id>", methods=['GET','POST'])
 def show_post(post_id):
     requested_post = db.get_or_404(BlogPost, post_id)
-    return render_template("post.html", post=requested_post)
+    comment_form = CommentForm()
+
+    if comment_form.validate_on_submit():
+        new_comment = Comment(
+            text=comment_form.comment_text.data,
+            comment_author=current_user,
+            parent_post=requested_post
+        )
+        db.session.add(new_comment)
+        db.session.commit()
+        return redirect(url_for('show_post', post_id=post_id))
+    return render_template("post.html", post=requested_post, current_user=current_user, form=comment_form)
 
 
 @app.route("/new-post", methods=["GET", "POST"])
@@ -216,7 +250,6 @@ def about():
 def contact():
     return render_template("contact.html")
 
-print(app.url_map)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5002)
