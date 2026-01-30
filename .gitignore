@@ -1,32 +1,29 @@
-/Day 25/new_data.csv
-/Day 25/states_to_learn.csv
-/Day 29/password_manager_data.txt
-/Day 31/data/words_to_learn.csv
+# IDE
+.idea/
+*.iml
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment
 *.env
-/token.txt
-/Day 49/chrome_profile/
-/Day 50/chrome_profile/
-/Day 51/chrome_profile/
-/Day 52/chrome_profile/
-Day 10/__pycache__/arts.cpython-314.pyc
-Day 11/__pycache__/arts.cpython-314.pyc
-Day 12/__pycache__/arts.cpython-314.pyc
-Day 13/__pycache__/maths.cpython-314.pyc
-Day 14/__pycache__/arts.cpython-314.pyc
-Day 14/__pycache__/game_data.cpython-314.pyc
-Day 15/__pycache__/data.cpython-314.pyc
-Day 16/imported/__pycache__/coffee_maker.cpython-314.pyc
-Day 16/imported/__pycache__/menu.cpython-314.pyc
-Day 16/imported/__pycache__/money_machine.cpython-314.pyc
-Day 17/imported/__pycache__/data.cpython-314.pyc
-Day 17/imported/__pycache__/question_model.cpython-314.pyc
-/Day 60/blog/static/css/styles.css
-/Day 59/upgraded blog/static/css/styles.css
-/Day 63/books-collection.db
-/Day 63/instance/
-/Day 67/static/
-/Day 67/instance/
-/Day 68/static/css/
-/Day 88/static/ckeditor/
-/Day 89/instance/db.todo
-/Day 88/instance/posts.db
+token.txt
+
+# Database
+*.db
+instance/
+
+# Chrome profiles
+chrome_profile/
+
+# Data files
+Day 25/new_data.csv
+Day 25/states_to_learn.csv
+Day 29/password_manager_data.txt
+Day 31/data/words_to_learn.csv
+
+# Static (if needed)
+Day 67/static/
+Day 68/static/css/
+Day 88/static/ckeditor/
