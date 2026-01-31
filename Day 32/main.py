@@ -3,9 +3,10 @@ import random
 import smtplib
 import datetime as dt
 import pandas
+import os
 
 my_gmail = "alesspy7@gmail.com"
-my_pass = "hnabgiqrmsrbzvwx"
+my_pass = os.environ.get('my_pass')
 my_yahoo = "lutik.nikita228@gmail.com"
 now = dt.datetime.now()
 today = (now.month, now.day)
