@@ -9,7 +9,6 @@ Original file is located at
 
 import pandas as pd
 
-
 # Load the data from the CSV file.
 df = pd.read_csv('salaries_by_college_major.csv')
 
