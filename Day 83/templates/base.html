@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{{ info.name }} - {{ info.role }}. {{ info.tagline }}">
+    <meta name="keywords" content="Data Science, Machine Learning, Python, Portfolio, {{ info.name }}">
+    <meta name="author" content="{{ info.name }}">
+
+    <!-- Open Graph (для соцсетей) -->
+    <meta property="og:title" content="{{ info.name }} | {{ info.role }}">
+    <meta property="og:description" content="{{ info.tagline }}">
+    <meta property="og:type" content="website">
+    <!-- TODO: Замени на URL твоего сайта -->
+    <meta property="og:url" content="https://yourusername.github.io">
+
+    <title>{% block title %}Portfolio{% endblock %} | {{ info.name }}</title>
+
+    <!-- Favicon -->
+    <!-- TODO: Добавь favicon.ico в static/images/ -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <!-- Logo -->
+            <a href="{{ url_for('index') }}" class="logo">
+                <span class="logo-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </span>
+                <span class="logo-text">Portfolio</span>
+            </a>
+
+            <!-- Navigation Menu -->
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="{{ url_for('index') }}" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">Главная</a></li>
+                <li><a href="{{ url_for('projects') }}" class="nav-link {% if 'project' in request.endpoint %}active{% endif %}">Проекты</a></li>
+                <li><a href="{{ url_for('contact') }}" class="nav-link {% if request.endpoint == 'contact' %}active{% endif %}">Контакты</a></li>
+
+                <!-- TODO: Замени на ссылку на своё резюме -->
+                <li>
+                    <a href="{{ url_for('static', filename='files/resume.pdf') }}"
+                       class="btn btn-primary btn-sm"
+                       target="_blank"
+                       download>
+                        <i class="fas fa-download"></i>
+                        Резюме
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="nav-toggle" id="nav-toggle" aria-label="Меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== FLASH MESSAGES ===== -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        {% if category == 'success' %}
+                            <i class="fas fa-check-circle"></i>
+                        {% elif category == 'error' %}
+                            <i class="fas fa-exclamation-circle"></i>
+                        {% else %}
+                            <i class="fas fa-info-circle"></i>
+                        {% endif %}
+                        <span>{{ message }}</span>
+                        <button class="flash-close" onclick="this.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Left: Logo & Copyright -->
+                <div class="footer-left">
+                    <a href="{{ url_for('index') }}" class="footer-logo">
+                        <i class="fas fa-chart-pie"></i>
+                        Portfolio
+                    </a>
+                    <p class="footer-copyright">
+                        © {{ current_year }} {{ info.name }}.
+                        Сделано с <i class="fas fa-heart"></i> и Python
+                    </p>
+                </div>
+
+                <!-- Right: Social Links -->
+                <div class="footer-social">
+                    <!-- TODO: Ссылки берутся из config/data.py -->
+                    <a href="{{ info.github }}" target="_blank" rel="noopener" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="{{ info.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://t.me/{{ info.telegram[1:] }}" target="_blank" rel="noopener" aria-label="Telegram">
+                        <i class="fab fa-telegram-plane"></i>
+                    </a>
+                    <a href="mailto:{{ info.email }}" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

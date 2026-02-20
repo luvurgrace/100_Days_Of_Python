@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block title %}Контакты{% endblock %}
+
+{% block content %}
+<!-- ===== CONTACT SECTION ===== -->
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Contact Info -->
+            <div class="contact-info" data-aos="fade-right">
+                <div class="section-header">
+                    <span class="section-label">Контакты</span>
+                    <h1 class="section-title">
+                        Давайте <span class="highlight">поговорим</span>
+                    </h1>
+                    <p class="section-subtitle">
+                        Заинтересованы в сотрудничестве или есть вопросы? 
+                        Я буду рад обсудить возможности!
+                    </p>
+                </div>
+                
+                <!-- Contact Items -->
+                <div class="contact-items">
+                    <div class="contact-item">
+                        <div class="contact-item-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-item-content">
+                            <h3>Email</h3>
+                            <a href="mailto:{{ info.email }}">{{ info.email }}</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-item-icon">
+                            <i class="fab fa-telegram-plane"></i>
+                        </div>
+                        <div class="contact-item-content">
+                            <h3>Telegram</h3>
+                            <a href="https://t.me/{{ info.telegram[1:] }}" target="_blank">
+                                {{ info.telegram }}
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-item-icon">
+                            <i class="fab fa-linkedin-in"></i>
+                        </div>
+                        <div class="contact-item-content">
+                            <h3>LinkedIn</h3>
+                            <a href="{{ info.linkedin }}" target="_blank">Профиль</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-item-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-item-content">
+                            <h3>Локация</h3>
+                            <span>{{ info.location }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="contact-social">
+                    <h4>Найти меня</h4>
+                    <div class="social-links">
+                        <a href="{{ info.github }}" target="_blank" class="social-link" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="{{ info.linkedin }}" target="_blank" class="social-link" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://t.me/{{ info.telegram[1:] }}" target="_blank" class="social-link" title="Telegram">
+                            <i class="fab fa-telegram-plane"></i>
+                        </a>
+                        <!-- TODO: Добавь свой Kaggle если есть -->
+                        <!-- <a href="https://kaggle.com/yourusername" target="_blank" class="social-link" title="Kaggle">
+                            <i class="fab fa-kaggle"></i>
+                        </a> -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Form -->
+            <div class="contact-form-wrapper" data-aos="fade-left">
+                <form class="contact-form" action="{{ url_for('contact') }}" method="POST">
+                    <h2 class="form-title">Отправить сообщение</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Имя <span class="required">*</span></label>
+                            <input type="text" 
+                                   id="name" 
+                                   name="name" 
+                                   placeholder="Ваше имя" 
+                                   required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email <span class="required">*</span></label>
+                            <input type="email" 
+                                   id="email" 
+                                   name="email" 
+                                   placeholder="your@email.com" 
+                                   required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Тема</label>
+                        <input type="text" 
+                               id="subject" 
+                               name="subject" 
+                               placeholder="О чём хотите поговорить?">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Сообщение <span class="required">*</span></label>
+                        <textarea id="message" 
+                                  name="message" 
+                                  rows="5" 
+                                  placeholder="Ваше сообщение..." 
+                                  required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg btn-full">
+                        <i class="fas fa-paper-plane"></i>
+                        Отправить
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

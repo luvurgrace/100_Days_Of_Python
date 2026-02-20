@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Страница не найдена{% endblock %}
+
+{% block content %}
+<section class="error-page">
+    <div class="container">
+        <div class="error-content">
+            <div class="error-code">404</div>
+            <h1 class="error-title">Страница не найдена</h1>
+            <p class="error-text">
+                Похоже, данные потерялись в процессе анализа 📊
+            </p>
+            <div class="error-actions">
+                <a href="{{ url_for('index') }}" class="btn btn-primary">
+                    <i class="fas fa-home"></i>
+                    На главную
+                </a>
+                <a href="{{ url_for('projects') }}" class="btn btn-outline">
+                    <i class="fas fa-folder-open"></i>
+                    Проекты
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
