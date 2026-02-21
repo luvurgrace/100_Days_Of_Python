@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Проекты{% endblock %}
+{% block title %}Projects{% endblock %}
 
 {% block content %}
 <!-- ===== PAGE HEADER ===== -->
@@ -8,10 +8,10 @@
     <div class="container">
         <div class="page-header-content">
             <h1 class="page-title" data-aos="fade-up">
-                Мои <span class="highlight">проекты</span>
+                My <span class="highlight">Projects</span>
             </h1>
             <p class="page-subtitle" data-aos="fade-up" data-aos-delay="100">
-                Исследуйте мои работы в области анализа данных и машинного обучения
+                Explore my work in data analysis and machine learning
             </p>
         </div>
     </div>
@@ -23,14 +23,14 @@
         <!-- Filters -->
         <div class="projects-filters" data-aos="fade-up">
             {% for category in categories %}
-                <a href="{{ url_for('projects', category=category.id) }}" 
+                <a href="{{ url_for('projects', category=category.id) }}"
                    class="filter-btn {% if current_category == category.id %}active{% endif %}">
                     <i class="{{ category.icon }}"></i>
                     {{ category.name }}
                 </a>
             {% endfor %}
         </div>
-        
+
         <!-- Projects Grid -->
         <div class="projects-grid projects-grid-full">
             {% if projects %}
@@ -38,20 +38,20 @@
                     <article class="project-card" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 50 }}">
                         <!-- Project Image -->
                         <div class="project-card-image">
-                            <img src="{{ url_for('static', filename='images/projects/' + project.image) }}" 
+                            <img src="{{ url_for('static', filename='images/projects/' + project.image) }}"
                                  alt="{{ project.title }}"
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            
+
                             <div class="project-card-placeholder" style="display: none;">
                                 <i class="{{ project.icon }}"></i>
                             </div>
-                            
+
                             <div class="project-card-categories">
                                 {% for cat in project.categories %}
                                     <span class="category-tag">{{ cat }}</span>
                                 {% endfor %}
                             </div>
-                            
+
                             <!-- Overlay -->
                             <div class="project-card-overlay">
                                 <a href="{{ url_for('project_detail', project_id=project.id) }}" class="overlay-link">
@@ -59,7 +59,7 @@
                                 </a>
                             </div>
                         </div>
-                        
+
                         <!-- Project Content -->
                         <div class="project-card-content">
                             <h3 class="project-card-title">
@@ -68,7 +68,7 @@
                                 </a>
                             </h3>
                             <p class="project-card-description">{{ project.short_description }}</p>
-                            
+
                             {% if project.metrics %}
                                 <div class="project-card-metrics">
                                     {% for key, value in project.metrics.items() %}
@@ -79,16 +79,16 @@
                                     {% endfor %}
                                 </div>
                             {% endif %}
-                            
+
                             <div class="project-card-tech">
                                 {% for tech in project.technologies[:4] %}
                                     <span class="tech-tag">{{ tech }}</span>
                                 {% endfor %}
                             </div>
-                            
+
                             <div class="project-card-links">
                                 <a href="{{ url_for('project_detail', project_id=project.id) }}" class="btn btn-primary btn-sm">
-                                    Подробнее
+                                    Learn More
                                     <i class="fas fa-arrow-right"></i>
                                 </a>
                                 {% if project.github %}
@@ -104,10 +104,10 @@
                 <!-- No Projects -->
                 <div class="no-projects">
                     <i class="fas fa-folder-open"></i>
-                    <h3>Проектов в этой категории пока нет</h3>
-                    <p>Попробуйте выбрать другую категорию</p>
+                    <h3>No projects in this category yet</h3>
+                    <p>Try selecting a different category</p>
                     <a href="{{ url_for('projects', category='all') }}" class="btn btn-primary">
-                        Все проекты
+                        All Projects
                     </a>
                 </div>
             {% endif %}

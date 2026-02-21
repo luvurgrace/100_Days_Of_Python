@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,17 +9,17 @@
     <meta name="keywords" content="Data Science, Machine Learning, Python, Portfolio, {{ info.name }}">
     <meta name="author" content="{{ info.name }}">
 
-    <!-- Open Graph (для соцсетей) -->
+    <!-- Open Graph (for social media) -->
     <meta property="og:title" content="{{ info.name }} | {{ info.role }}">
     <meta property="og:description" content="{{ info.tagline }}">
     <meta property="og:type" content="website">
-    <!-- TODO: Замени на URL твоего сайта -->
+    <!-- TODO: Replace with your website URL -->
     <meta property="og:url" content="https://yourusername.github.io">
 
     <title>{% block title %}Portfolio{% endblock %} | {{ info.name }}</title>
 
     <!-- Favicon -->
-    <!-- TODO: Добавь favicon.ico в static/images/ -->
+    <!-- TODO: Add favicon.ico to static/images/ -->
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 
     <!-- Google Fonts -->
@@ -49,24 +49,24 @@
 
             <!-- Navigation Menu -->
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="{{ url_for('index') }}" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">Главная</a></li>
-                <li><a href="{{ url_for('projects') }}" class="nav-link {% if 'project' in request.endpoint %}active{% endif %}">Проекты</a></li>
-                <li><a href="{{ url_for('contact') }}" class="nav-link {% if request.endpoint == 'contact' %}active{% endif %}">Контакты</a></li>
+                <li><a href="{{ url_for('index') }}" class="nav-link {% if request.endpoint == 'index' %}active{% endif %}">Home</a></li>
+                <li><a href="{{ url_for('projects') }}" class="nav-link {% if 'project' in request.endpoint %}active{% endif %}">Projects</a></li>
+                <li><a href="{{ url_for('contact') }}" class="nav-link {% if request.endpoint == 'contact' %}active{% endif %}">Contact</a></li>
 
-                <!-- TODO: Замени на ссылку на своё резюме -->
+                <!-- TODO: Replace with link to your resume -->
                 <li>
                     <a href="{{ url_for('static', filename='files/resume.pdf') }}"
                        class="btn btn-primary btn-sm"
                        target="_blank"
                        download>
                         <i class="fas fa-download"></i>
-                        Резюме
+                        Resume
                     </a>
                 </li>
             </ul>
 
             <!-- Mobile Menu Toggle -->
-            <button class="nav-toggle" id="nav-toggle" aria-label="Меню">
+            <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -114,13 +114,13 @@
                     </a>
                     <p class="footer-copyright">
                         © {{ current_year }} {{ info.name }}.
-                        Сделано с <i class="fas fa-heart"></i> и Python
+                        Made with <i class="fas fa-heart"></i> and Python
                     </p>
                 </div>
 
                 <!-- Right: Social Links -->
                 <div class="footer-social">
-                    <!-- TODO: Ссылки берутся из config/data.py -->
+                    <!-- TODO: Links are taken from config/data.py -->
                     <a href="{{ info.github }}" target="_blank" rel="noopener" aria-label="GitHub">
                         <i class="fab fa-github"></i>
                     </a>

@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+<!-- ===== CONTACT SECTION ===== -->
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Contact Info -->
+            <div class="contact-info" data-aos="fade-right">
+                <div class="section-header">
+                    <span class="section-label">Contact</span>
+                    <h1 class="section-title">
+                        Let's <span class="highlight">Talk</span>
+                    </h1>
+                    <p class="section-subtitle">
+                        Choose a convenient way to contact me.
+                        I usually respond within 24 hours!
+                    </p>
+                </div>
+
+                <!-- Contact Methods -->
+                <div class="contact-methods">
+                    <h3 class="methods-title">Contact Methods</h3>
+
+                    <!-- Email Card -->
+                    <div class="method-card">
+                        <div class="method-icon email-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="method-content">
+                            <h4>Email</h4>
+                            <p>For detailed inquiries and collaboration</p>
+                            <a href="mailto:{{ info.email }}" class="method-link">
+                                {{ info.email }}
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Telegram Card -->
+                    <div class="method-card">
+                        <div class="method-icon telegram-icon">
+                            <i class="fab fa-telegram-plane"></i>
+                        </div>
+                        <div class="method-content">
+                            <h4>Telegram</h4>
+                            <p>For quick questions and chat</p>
+                            <a href="https://t.me/{{ info.telegram[1:] }}"
+                               target="_blank"
+                               class="method-link">
+                                {{ info.telegram }}
+                            </a>
+                        </div>
+                        <a href="https://t.me/{{ info.telegram[1:] }}"
+                           target="_blank"
+                           class="btn btn-telegram btn-sm">
+                            <i class="fab fa-telegram-plane"></i>
+                            Open Telegram
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Location & LinkedIn -->
+                <div class="contact-items">
+                    <div class="contact-item">
+                        <div class="contact-item-icon">
+                            <i class="fab fa-linkedin-in"></i>
+                        </div>
+                        <div class="contact-item-content">
+                            <h3>LinkedIn</h3>
+                            <a href="{{ info.linkedin }}" target="_blank">View Profile</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-item-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-item-content">
+                            <h3>Location</h3>
+                            <span>{{ info.location }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Links -->
+                <div class="contact-social">
+                    <h4>Find Me Online</h4>
+                    <div class="social-links">
+                        <a href="{{ info.github }}" target="_blank" class="social-link" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="{{ info.linkedin }}" target="_blank" class="social-link" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://t.me/{{ info.telegram[1:] }}" target="_blank" class="social-link" title="Telegram">
+                            <i class="fab fa-telegram-plane"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form-wrapper" data-aos="fade-left">
+                <form class="contact-form" action="{{ url_for('contact') }}" method="POST">
+                    <h2 class="form-title">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Me a Message
+                    </h2>
+                    <p class="form-subtitle">
+                        Fill out the form and I'll get back to you via email
+                    </p>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">
+                                <i class="fas fa-user"></i>
+                                Name <span class="required">*</span>
+                            </label>
+                            <input type="text"
+                                   id="name"
+                                   name="name"
+                                   placeholder="Your name"
+                                   required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">
+                                <i class="fas fa-envelope"></i>
+                                Email <span class="required">*</span>
+                            </label>
+                            <input type="email"
+                                   id="email"
+                                   name="email"
+                                   placeholder="your@email.com"
+                                   required>
+                        </div>
+                    </div>
+
+                    <!-- Contact Preference -->
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-comments"></i>
+                            Preferred Contact Method
+                        </label>
+                        <div class="contact-preference">
+                            <label class="preference-option">
+                                <input type="radio" name="contact_method" value="email" checked>
+                                <span class="preference-box">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>Email</span>
+                                </span>
+                            </label>
+                            <label class="preference-option">
+                                <input type="radio" name="contact_method" value="telegram">
+                                <span class="preference-box">
+                                    <i class="fab fa-telegram-plane"></i>
+                                    <span>Telegram</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Telegram Username (shown when Telegram selected) -->
+                    <div class="form-group telegram-field" style="display: none;">
+                        <label for="telegram_username">
+                            <i class="fab fa-telegram-plane"></i>
+                            Your Telegram Username
+                        </label>
+                        <input type="text"
+                               id="telegram_username"
+                               name="telegram_username"
+                               placeholder="@username">
+                        <small class="form-hint">So I can reach you on Telegram</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">
+                            <i class="fas fa-tag"></i>
+                            Subject
+                        </label>
+                        <select id="subject" name="subject">
+                            <option value="">Select a topic...</option>
+                            <option value="Job Opportunity">💼 Job Opportunity</option>
+                            <option value="Project Collaboration">🤝 Project Collaboration</option>
+                            <option value="Freelance Work">💻 Freelance Work</option>
+                            <option value="Question">❓ Question</option>
+                            <option value="Other">📌 Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">
+                            <i class="fas fa-comment-alt"></i>
+                            Message <span class="required">*</span>
+                        </label>
+                        <textarea id="message"
+                                  name="message"
+                                  rows="5"
+                                  placeholder="Tell me about your project or question..."
+                                  required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg btn-full">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Message
+                    </button>
+
+                    <p class="form-note">
+                        <i class="fas fa-shield-alt"></i>
+                        Your data is secure and won't be shared with third parties
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== QUICK CONTACT FLOATING BUTTON ===== -->
+<div class="quick-contact">
+    <a href="https://t.me/{{ info.telegram[1:] }}"
+       target="_blank"
+       class="quick-contact-btn telegram"
+       title="Message on Telegram">
+        <i class="fab fa-telegram-plane"></i>
+    </a>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Toggle Telegram field based on contact preference
+document.querySelectorAll('input[name="contact_method"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const telegramField = document.querySelector('.telegram-field');
+        if (this.value === 'telegram') {
+            telegramField.style.display = 'block';
+        } else {
+            telegramField.style.display = 'none';
+        }
+    });
+});
+</script>
+{% endblock %}

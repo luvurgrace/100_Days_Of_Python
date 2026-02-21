@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Главная{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
 <!-- ===== HERO SECTION ===== -->
@@ -15,7 +15,7 @@
             <!-- Greeting -->
             <p class="hero-greeting" data-aos="fade-up">
                 <span class="greeting-line"></span>
-                Привет, я
+                Hi, I'm
             </p>
 
             <!-- Name -->
@@ -43,11 +43,11 @@
             <div class="hero-buttons" data-aos="fade-up" data-aos-delay="500">
                 <a href="{{ url_for('projects') }}" class="btn btn-primary">
                     <i class="fas fa-folder-open"></i>
-                    Смотреть проекты
+                    View Projects
                 </a>
                 <a href="{{ url_for('contact') }}" class="btn btn-outline">
                     <i class="fas fa-paper-plane"></i>
-                    Связаться
+                    Get in Touch
                 </a>
             </div>
         </div>
@@ -55,12 +55,12 @@
         <!-- Hero Image -->
         <div class="hero-image" data-aos="fade-left" data-aos-delay="300">
             <div class="hero-image-wrapper">
-                <!-- TODO: Добавь своё фото в static/images/profile.jpg -->
+                <!-- TODO: Add your photo to static/images/profile.jpg -->
                 <img src="{{ url_for('static', filename='images/profile.jpg') }}"
                      alt="{{ info.name }}"
                      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
 
-                <!-- Placeholder если нет фото -->
+                <!-- Placeholder if no photo -->
                 <div class="hero-image-placeholder" style="display: none;">
                     <i class="fas fa-user"></i>
                 </div>
@@ -94,19 +94,19 @@
         <div class="stats-grid">
             <div class="stat-card" data-aos="fade-up" data-aos-delay="0">
                 <span class="stat-number">{{ stats.projects }}</span>
-                <span class="stat-label">Проектов</span>
+                <span class="stat-label">Projects</span>
             </div>
             <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
                 <span class="stat-number">{{ stats.models }}</span>
-                <span class="stat-label">Моделей</span>
+                <span class="stat-label">Models</span>
             </div>
             <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
                 <span class="stat-number">{{ stats.accuracy }}</span>
-                <span class="stat-label">Лучшая точность</span>
+                <span class="stat-label">Best Accuracy</span>
             </div>
             <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
                 <span class="stat-number">{{ stats.experience }}</span>
-                <span class="stat-label">Год опыта</span>
+                <span class="stat-label">Year Experience</span>
             </div>
         </div>
     </div>
@@ -118,9 +118,9 @@
         <div class="about-content">
             <!-- Section Header -->
             <div class="section-header" data-aos="fade-up">
-                <span class="section-label">Обо мне</span>
+                <span class="section-label">About Me</span>
                 <h2 class="section-title">
-                    Кто я и чем <span class="highlight">занимаюсь</span>
+                    Who I am and what I <span class="highlight">do</span>
                 </h2>
             </div>
 
@@ -131,14 +131,14 @@
 
             <!-- Skills -->
             <div class="about-skills" data-aos="fade-up" data-aos-delay="200">
-                <h3 class="skills-title">Мой стек технологий</h3>
+                <h3 class="skills-title">My Tech Stack</h3>
 
                 <div class="skills-grid">
                     <!-- Languages -->
                     <div class="skill-group">
                         <h4 class="skill-group-title">
                             <i class="fas fa-code"></i>
-                            Языки
+                            Languages
                         </h4>
                         <div class="skill-tags">
                             {% for skill in skills.languages %}
@@ -167,7 +167,7 @@
                     <div class="skill-group">
                         <h4 class="skill-group-title">
                             <i class="fas fa-tools"></i>
-                            Инструменты
+                            Tools
                         </h4>
                         <div class="skill-tags">
                             {% for skill in skills.tools %}
@@ -189,12 +189,12 @@
     <div class="container">
         <!-- Section Header -->
         <div class="section-header" data-aos="fade-up">
-            <span class="section-label">Портфолио</span>
+            <span class="section-label">Portfolio</span>
             <h2 class="section-title">
-                Избранные <span class="highlight">проекты</span>
+                Featured <span class="highlight">Projects</span>
             </h2>
             <p class="section-subtitle">
-                Мои лучшие работы в области Data Science
+                My best work in Data Science
             </p>
         </div>
 
@@ -251,7 +251,7 @@
                         <!-- Links -->
                         <div class="project-card-links">
                             <a href="{{ url_for('project_detail', project_id=project.id) }}" class="btn btn-primary btn-sm">
-                                Подробнее
+                                Learn More
                                 <i class="fas fa-arrow-right"></i>
                             </a>
                             {% if project.github %}
@@ -273,7 +273,7 @@
         <!-- View All Button -->
         <div class="section-footer" data-aos="fade-up">
             <a href="{{ url_for('projects') }}" class="btn btn-outline btn-lg">
-                Все проекты
+                All Projects
                 <i class="fas fa-arrow-right"></i>
             </a>
         </div>
@@ -285,22 +285,22 @@
     <div class="container">
         <div class="cta-content" data-aos="fade-up">
             <h2 class="cta-title">
-                Заинтересованы в сотрудничестве?
+                Interested in collaboration?
             </h2>
             <p class="cta-text">
-                Я открыт к новым возможностям и интересным проектам в сфере Data Science
+                I'm open to new opportunities and interesting projects in Data Science
             </p>
             <div class="cta-buttons">
                 <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg">
                     <i class="fas fa-envelope"></i>
-                    Связаться со мной
+                    Contact Me
                 </a>
                 <a href="{{ url_for('static', filename='files/resume.pdf') }}"
                    class="btn btn-outline btn-lg"
                    target="_blank"
                    download>
                     <i class="fas fa-download"></i>
-                    Скачать резюме
+                    Download Resume
                 </a>
             </div>
         </div>

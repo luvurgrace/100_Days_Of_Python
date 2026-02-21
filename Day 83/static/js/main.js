@@ -162,19 +162,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Validate name
             if (name && name.value.trim().length < 2) {
-                showError(name, 'Имя должно содержать минимум 2 символа');
+                showError(name, 'Name must be at least 2 characters');
                 isValid = false;
             }
 
             // Validate email
             if (email && !isValidEmail(email.value)) {
-                showError(email, 'Введите корректный email');
+                showError(email, 'Please enter a valid email');
                 isValid = false;
             }
 
             // Validate message
             if (message && message.value.trim().length < 10) {
-                showError(message, 'Сообщение должно содержать минимум 10 символов');
+                showError(message, 'Message must be at least 10 characters');
                 isValid = false;
             }
 

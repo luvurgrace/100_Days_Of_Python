@@ -1,74 +1,84 @@
 # ==============================================================================
 # 📝 PORTFOLIO CONFIGURATION
 # ==============================================================================
-# This file contains data for my website portfolio.
+# This file contains all data for your portfolio.
+# Change the values to your own!
 # ==============================================================================
 
 
 # ==============================================================================
-# 👤 PERSONAL DATA
+# 👤 PERSONAL INFORMATION
 # ==============================================================================
 
 PERSONAL_INFO = {
-    "name": "Lutik Nikita",
+    # TODO: Replace with your name
+    "name": "Nikita Lutik",
 
+    # TODO: Replace with your role
     "role": "Data Scientist",
 
-    # TODO: Короткое описание для hero-секции (1-2 предложения)
-    "tagline": "Превращаю сырые данные в бизнес-решения",
+    # TODO: Short description for hero section (1-2 sentences)
+    "tagline": "Transforming raw data into business solutions",
 
+    # TODO: Replace with your email
     "email": "lutik.nikita228@gmail.com",
 
+    # TODO: Replace with your Telegram (with @)
     "telegram": "@regraced",
 
+    # TODO: Replace with your GitHub
     "github": "https://github.com/luvurgrace",
 
+    # TODO: Replace with your LinkedIn
     "linkedin": "https://linkedin.com/in/nlutik",
 
+    # TODO: City/Country
     "location": "Minsk, Belarus",
 
-    # TODO: Написать о себе (для секции About на главной)
+    # TODO: Write about yourself (for About section on main page)
     "bio": """
-        Начинающий Data Scientist с опытом работы над проектами 
-        по машинному обучению и анализу данных. Прошёл курс 
-        "100 Days of Code" и постоянно совершенствую свои навыки.
-        Ищу возможности применить свои знания в реальных проектах.
+        Aspiring Data Scientist with experience working on machine learning 
+        and data analysis projects. Completed "100 Days of Code" course 
+        and constantly improving my skills. Looking for opportunities 
+        to apply my knowledge in real-world projects.
     """,
 
-    "status": "Open for work",
+    # TODO: Status (displayed on the site)
+    # Options: "Open to opportunities", "Looking for work", "Busy"
+    "status": "Open to opportunities",
 }
 
 # ==============================================================================
-# 📊 STATISTICS (displays on main)
+# 📊 STATISTICS (displayed on main page)
 # ==============================================================================
 
 STATS = {
-    # TODO: Заменить на свои цифры
-    "projects": "5+",  # Количество проектов
-    "models": "10+",  # Обученных моделей
-    "accuracy": "89%",  # Лучшая точность модели
-    "experience": "1+",  # Лет опыта (или месяцев)
+    # TODO: Replace with your numbers
+    "projects": "5+",  # Number of projects
+    "models": "10+",  # Trained models
+    "accuracy": "89%",  # Best model accuracy
+    "experience": "1+",  # Years of experience (or months)
 }
 
 # ==============================================================================
-# 🛠️ SKILLS (displays on main)
+# 🛠️ SKILLS (displayed on main page)
 # ==============================================================================
 
-# TODO: Оставь только те технологии, которые знаешь
+# TODO: Keep only the technologies you know
 SKILLS = {
     "languages": [
         {"name": "Python", "icon": "fab fa-python"},
         {"name": "SQL", "icon": "fas fa-database"},
-        # {"name": "R", "icon": "fab fa-r-project"},  # Раскомментируй если знаешь R
+        # {"name": "R", "icon": "fab fa-r-project"},  # Uncomment if you know R
     ],
 
     "data_science": [
-        {"name": "Pandas", "icon": "TEXT"},
+        {"name": "Pandas", "icon": ""},
         {"name": "NumPy", "icon": ""},
         {"name": "Scikit-learn", "icon": ""},
         {"name": "Matplotlib", "icon": ""},
         {"name": "Seaborn", "icon": ""},
-        # {"name": "TensorFlow", "icon": ""},  # Раскомментируй если знаешь
+        # {"name": "TensorFlow", "icon": ""},  # Uncomment if you know
         # {"name": "PyTorch", "icon": ""},
         # {"name": "XGBoost", "icon": ""},
     ],
@@ -86,149 +96,149 @@ SKILLS = {
 # 💼 PROJECTS
 # ==============================================================================
 
-# TODO: Замени на свои проекты
+# TODO: Replace with your projects
 PROJECTS = [
     {
-        # Уникальный ID (используется в URL)
+        # Unique ID (used in URL)
         "id": "customer-churn",
 
-        # Название проекта
+        # Project title
         "title": "Customer Churn Prediction",
 
-        # Короткое описание (для карточки)
-        "short_description": "Предсказание оттока клиентов телеком-компании с использованием машинного обучения",
+        # Short description (for card)
+        "short_description": "Predicting customer churn for a telecom company using machine learning",
 
-        # Категории (для фильтрации)
-        # Варианты: "ML", "EDA", "NLP", "CV", "Time Series", "Deep Learning"
+        # Categories (for filtering)
+        # Options: "ML", "EDA", "NLP", "CV", "Time Series", "Deep Learning"
         "categories": ["ML", "EDA"],
 
-        # Картинка проекта (положи в static/images/projects/)
-        # TODO: Добавь скриншот проекта
+        # Project image (place in static/images/projects/)
+        # TODO: Add project screenshot
         "image": "project1.jpg",
 
-        # Иконка (если нет картинки)
+        # Icon (if no image)
         "icon": "fas fa-users",
 
-        # Ключевые метрики (отображаются на карточке)
+        # Key metrics (displayed on card)
         "metrics": {
             "F1 Score": "0.85",
             "AUC-ROC": "0.91",
-            "Данных": "100K",
+            "Data": "100K",
         },
 
-        # Технологии
+        # Technologies
         "technologies": ["Python", "Pandas", "Scikit-learn", "XGBoost", "Matplotlib"],
 
-        # Ссылки
-        # TODO: Замени на свои ссылки
+        # Links
+        # TODO: Replace with your links
         "github": "https://github.com/yourusername/customer-churn",
         "notebook": "https://github.com/yourusername/customer-churn/blob/main/analysis.ipynb",
-        "demo": None,  # Ссылка на демо (если есть)
+        "demo": None,  # Demo link (if available)
 
-        # Избранный проект (показывается на главной)
+        # Featured project (shown on main page)
         "featured": True,
 
-        # ===== ДЕТАЛЬНАЯ ИНФОРМАЦИЯ (для страницы проекта) =====
+        # ===== DETAILED INFORMATION (for project page) =====
 
-        # Полное описание проекта
+        # Full project description
         "full_description": """
-            Этот проект посвящён анализу оттока клиентов телекоммуникационной компании. 
-            Основная цель — построить модель машинного обучения, которая может предсказать, 
-            уйдёт ли клиент, на основе его характеристик и поведения.
+            This project is dedicated to analyzing customer churn for a telecommunications company. 
+            The main goal is to build a machine learning model that can predict whether 
+            a customer will leave based on their characteristics and behavior.
         """,
 
-        # Бизнес-задача
+        # Business problem
         "business_problem": """
-            Телеком-компания теряла до 20% клиентов ежемесячно. Отток клиентов (churn) 
-            приводил к значительным финансовым потерям, так как привлечение нового клиента 
-            стоит в 5-7 раз дороже удержания существующего.
+            The telecom company was losing up to 20% of customers monthly. Customer churn 
+            led to significant financial losses, as acquiring a new customer costs 
+            5-7 times more than retaining an existing one.
 
-            Необходимо было создать инструмент для раннего выявления клиентов, 
-            склонных к уходу, чтобы предпринять превентивные меры.
+            It was necessary to create a tool for early identification of customers 
+            prone to leaving, in order to take preventive measures.
         """,
 
-        # Описание данных
+        # Data description
         "data_description": """
-            **Источник:** Kaggle Telco Customer Churn Dataset
+            **Source:** Kaggle Telco Customer Churn Dataset
 
-            **Размер:** 7,043 записи, 21 признак
+            **Size:** 7,043 records, 21 features
 
-            **Признаки включают:**
-            - Демографические данные (пол, возраст, семейное положение)
-            - Информация об аккаунте (срок обслуживания, тип контракта)
-            - Подключённые услуги (интернет, ТВ, безопасность)
-            - Финансовые данные (ежемесячные платежи, общая сумма)
+            **Features include:**
+            - Demographic data (gender, age, marital status)
+            - Account information (tenure, contract type)
+            - Connected services (internet, TV, security)
+            - Financial data (monthly charges, total amount)
 
-            **Целевая переменная:** Churn (ушёл/остался)
+            **Target variable:** Churn (left/stayed)
 
-            **Особенности:** Несбалансированные классы (26% ушедших)
+            **Peculiarities:** Imbalanced classes (26% churned)
         """,
 
-        # Методология
+        # Methodology
         "methodology": [
             {
-                "step": "1. Разведочный анализ (EDA)",
-                "description": "Изучение распределений, корреляций, выявление паттернов в данных"
+                "step": "1. Exploratory Data Analysis (EDA)",
+                "description": "Studying distributions, correlations, identifying patterns in data"
             },
             {
-                "step": "2. Предобработка данных",
-                "description": "Обработка пропусков, кодирование категориальных переменных, масштабирование"
+                "step": "2. Data Preprocessing",
+                "description": "Handling missing values, encoding categorical variables, scaling"
             },
             {
                 "step": "3. Feature Engineering",
-                "description": "Создание новых признаков: срок обслуживания в категориях, отношение платежей"
+                "description": "Creating new features: tenure categories, payment ratios"
             },
             {
-                "step": "4. Обучение моделей",
-                "description": "Тестирование Logistic Regression, Random Forest, XGBoost, подбор гиперпараметров"
+                "step": "4. Model Training",
+                "description": "Testing Logistic Regression, Random Forest, XGBoost, hyperparameter tuning"
             },
             {
-                "step": "5. Оценка и интерпретация",
-                "description": "Анализ метрик, SHAP values для интерпретации, выводы"
+                "step": "5. Evaluation and Interpretation",
+                "description": "Metrics analysis, SHAP values for interpretation, conclusions"
             },
         ],
 
-        # Результаты моделей
+        # Model results
         "model_results": [
             {"model": "Logistic Regression", "accuracy": "0.79", "precision": "0.72", "recall": "0.69", "f1": "0.70"},
             {"model": "Random Forest", "accuracy": "0.84", "precision": "0.79", "recall": "0.76", "f1": "0.77"},
             {"model": "XGBoost", "accuracy": "0.87", "precision": "0.84", "recall": "0.82", "f1": "0.85", "best": True},
         ],
 
-        # Ключевые инсайты
+        # Key insights
         "insights": [
-            "Клиенты с помесячным контрактом уходят в 3 раза чаще",
-            "Первые 12 месяцев — критический период удержания",
-            "Отсутствие онлайн-безопасности коррелирует с оттоком",
-            "Высокие ежемесячные платежи — фактор риска",
+            "Customers with month-to-month contracts churn 3 times more often",
+            "First 12 months are a critical retention period",
+            "Lack of online security correlates with churn",
+            "High monthly charges are a risk factor",
         ],
 
-        # Бизнес-рекомендации
+        # Business recommendations
         "recommendations": """
-            1. **Фокус на первый год:** Разработать программу лояльности для новых клиентов
-            2. **Продвигать долгосрочные контракты:** Предлагать скидки за годовой контракт
-            3. **Upsell безопасности:** Клиенты с доп. услугами менее склонны уходить
-            4. **Мониторинг:** Внедрить модель в CRM для автоматического скоринга
+            1. **Focus on the first year:** Develop a loyalty program for new customers
+            2. **Promote long-term contracts:** Offer discounts for annual contracts
+            3. **Upsell security:** Customers with additional services are less likely to leave
+            4. **Monitoring:** Implement the model into CRM for automatic scoring
         """,
 
-        # Визуализации (названия файлов в static/images/projects/)
-        # TODO: Добавь скриншоты графиков
+        # Visualizations (file names in static/images/projects/)
+        # TODO: Add graph screenshots
         "visualizations": [
-            {"image": "project1_viz1.jpg", "caption": "Распределение оттока по типу контракта"},
+            {"image": "project1_viz1.jpg", "caption": "Churn distribution by contract type"},
             {"image": "project1_viz2.jpg", "caption": "Feature Importance"},
             {"image": "project1_viz3.jpg", "caption": "ROC Curve"},
         ],
     },
 
     # -------------------------------------------------------------------------
-    # ПРОЕКТ 2 - TODO: Замени на свой проект
+    # PROJECT 2 - TODO: Replace with your project
     # -------------------------------------------------------------------------
     {
         "id": "eda-sales",
 
         "title": "Sales Data Analysis",
 
-        "short_description": "Исследовательский анализ данных о продажах: выявление трендов, сезонности и инсайтов",
+        "short_description": "Exploratory data analysis of sales data: identifying trends, seasonality, and insights",
 
         "categories": ["EDA"],
 
@@ -236,9 +246,9 @@ PROJECTS = [
         "icon": "fas fa-chart-line",
 
         "metrics": {
-            "Записей": "50K",
-            "Признаков": "15",
-            "Инсайтов": "10+",
+            "Records": "50K",
+            "Features": "15",
+            "Insights": "10+",
         },
 
         "technologies": ["Python", "Pandas", "Matplotlib", "Seaborn", "Plotly"],
@@ -250,61 +260,61 @@ PROJECTS = [
         "featured": True,
 
         "full_description": """
-            Комплексный исследовательский анализ данных о продажах розничной сети. 
-            Проект демонстрирует навыки работы с данными, визуализации и извлечения 
-            бизнес-инсайтов.
+            Comprehensive exploratory data analysis of retail chain sales data. 
+            The project demonstrates skills in data manipulation, visualization, 
+            and extracting business insights.
         """,
 
         "business_problem": """
-            Розничная сеть хотела понять паттерны продаж для оптимизации 
-            закупок и маркетинговых кампаний. Необходимо было ответить на вопросы:
+            A retail chain wanted to understand sales patterns to optimize 
+            procurement and marketing campaigns. It was necessary to answer questions:
 
-            - Какие товары продаются лучше всего?
-            - Есть ли сезонность в продажах?
-            - Какие факторы влияют на выручку?
+            - Which products sell best?
+            - Is there seasonality in sales?
+            - What factors affect revenue?
         """,
 
         "data_description": """
-            **Источник:** Kaggle Retail Sales Dataset
+            **Source:** Kaggle Retail Sales Dataset
 
-            **Период:** 2020-2023
+            **Period:** 2020-2023
 
-            **Размер:** 50,000 транзакций
+            **Size:** 50,000 transactions
 
-            **Признаки:** Дата, категория товара, количество, цена, магазин, регион
+            **Features:** Date, product category, quantity, price, store, region
         """,
 
         "methodology": [
-            {"step": "1. Очистка данных", "description": "Обработка пропусков, дубликатов, выбросов"},
-            {"step": "2. Анализ распределений", "description": "Изучение числовых и категориальных переменных"},
-            {"step": "3. Временной анализ", "description": "Тренды, сезонность, аномалии"},
-            {"step": "4. Сегментация", "description": "Анализ по категориям, регионам, клиентам"},
-            {"step": "5. Визуализация", "description": "Создание информативных дашбордов"},
+            {"step": "1. Data Cleaning", "description": "Handling missing values, duplicates, outliers"},
+            {"step": "2. Distribution Analysis", "description": "Studying numerical and categorical variables"},
+            {"step": "3. Time Analysis", "description": "Trends, seasonality, anomalies"},
+            {"step": "4. Segmentation", "description": "Analysis by categories, regions, customers"},
+            {"step": "5. Visualization", "description": "Creating informative dashboards"},
         ],
 
-        "model_results": None,  # Нет моделей в EDA проекте
+        "model_results": None,  # No models in EDA project
 
         "insights": [
-            "Пик продаж приходится на декабрь (+40% к среднему)",
-            "Категория 'Электроника' генерирует 35% выручки",
-            "Выходные дни показывают на 25% больше продаж",
-            "Регион 'Центр' лидирует по среднему чеку",
+            "Sales peak occurs in December (+40% to average)",
+            "Electronics category generates 35% of revenue",
+            "Weekends show 25% more sales",
+            "Central region leads in average check",
         ],
 
         "recommendations": """
-            1. Увеличить запасы перед праздничным сезоном
-            2. Расширить ассортимент электроники
-            3. Запустить weekend-акции в отстающих регионах
+            1. Increase inventory before the holiday season
+            2. Expand electronics assortment
+            3. Launch weekend promotions in underperforming regions
         """,
 
         "visualizations": [
-            {"image": "project2_viz1.jpg", "caption": "Динамика продаж по месяцам"},
-            {"image": "project2_viz2.jpg", "caption": "Топ категорий по выручке"},
+            {"image": "project2_viz1.jpg", "caption": "Monthly sales dynamics"},
+            {"image": "project2_viz2.jpg", "caption": "Top categories by revenue"},
         ],
     },
 
     # -------------------------------------------------------------------------
-    # TODO: Добавь ещё проекты по аналогии
+    # TODO: Add more projects following the same pattern
     # -------------------------------------------------------------------------
 ]
 
@@ -313,7 +323,7 @@ PROJECTS = [
 # ==============================================================================
 
 PROJECT_CATEGORIES = [
-    {"id": "all", "name": "Все проекты", "icon": "fas fa-th"},
+    {"id": "all", "name": "All Projects", "icon": "fas fa-th"},
     {"id": "ML", "name": "Machine Learning", "icon": "fas fa-robot"},
     {"id": "EDA", "name": "EDA", "icon": "fas fa-search"},
     {"id": "NLP", "name": "NLP", "icon": "fas fa-comment-dots"},
