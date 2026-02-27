@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cafe & Wifi</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>☕ Cafe & Wifi</h1>
+        <a href="/add" class="btn">+ Add Cafe</a>
+    </header>
+
+    <main>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Seats</th>
+                <th>Price</th>
+                <th>Wifi</th>
+                <th>Sockets</th>
+                <th>Toilet</th>
+                <th>Calls</th>
+                <th>Actions</th>
+            </tr>
+            {% for cafe in cafes %}
+            <tr>
+                <td>{{ cafe.name }}</td>
+                <td>{{ cafe.location }}</td>
+                <td>{{ cafe.seats }}</td>
+                <td>{{ cafe.coffee_price or '-' }}</td>
+                <td>{{ "✅" if cafe.has_wifi else "❌" }}</td>
+                <td>{{ "✅" if cafe.has_sockets else "❌" }}</td>
+                <td>{{ "✅" if cafe.has_toilet else "❌" }}</td>
+                <td>{{ "✅" if cafe.can_take_calls else "❌" }}</td>
+                <td>
+                    <a href="{{ cafe.map_url }}" target="_blank">📍</a>
+                    <a href="/edit/{{ cafe.id }}">✏️</a>
+                    <a href="/delete/{{ cafe.id }}" onclick="return confirm('Delete?')">🗑️</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </main>
+</body>
+</html>

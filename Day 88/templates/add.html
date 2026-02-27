@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Cafe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Add Cafe</h1>
+        <a href="/" class="btn">← Back</a>
+    </header>
+
+    <main>
+        <form method="POST" class="form">
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="text" name="location" placeholder="Location" required>
+            <input type="url" name="map_url" placeholder="Map URL" required>
+            <input type="url" name="img_url" placeholder="Image URL" required>
+            <input type="text" name="seats" placeholder="Seats (e.g. 20-30)" required>
+            <input type="text" name="coffee_price" placeholder="Coffee Price (e.g. £2.50)">
+
+            <div class="checkboxes">
+                <label><input type="checkbox" name="has_wifi"> Wifi</label>
+                <label><input type="checkbox" name="has_sockets"> Sockets</label>
+                <label><input type="checkbox" name="has_toilet"> Toilet</label>
+                <label><input type="checkbox" name="can_take_calls"> Calls</label>
+            </div>
+
+            <button type="submit" class="btn">Add Cafe</button>
+        </form>
+    </main>
+</body>
+</html>
