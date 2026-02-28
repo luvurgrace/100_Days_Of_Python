@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>✅ Todo List Tracker</h1>
+
+        <form action="/add" method="POST" class="add-form">
+            <input type="text" name="text" placeholder="Add new task..." required>
+            <button type="submit">Add</button>
+        </form>
+
+        <ul class="todo-list">
+            {% for todo in todos %}
+            <li class="{{ 'done' if todo.done }}">
+                <a href="/toggle/{{ todo.id }}" class="toggle">
+                    {{ "✅" if todo.done else "⬜" }}
+                </a>
+                <span class="text">{{ todo.text }}</span>
+                <a href="/delete/{{ todo.id }}" class="delete">🗑️</a>
+            </li>
+            {% endfor %}
+        </ul>
+
+        {% if todos %}
+        <div class="footer">
+            <span>{{ todos|selectattr('done')|list|length }} / {{ todos|length }} done</span>
+            <a href="/clear" class="clear">Clear completed</a>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
