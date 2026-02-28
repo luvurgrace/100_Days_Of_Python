@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dangerous Writing App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚠️ Dangerous Writing App</h1>
+            <div class="timer" id="timer">5</div>
+        </header>
+
+        <p class="warning">Keep typing! Stop for 5 seconds and lose everything.</p>
+
+        <textarea id="text" placeholder="Start typing..."></textarea>
+
+        <div class="footer">
+            <span id="words">Words: 0</span>
+        </div>
+    </div>
+
+    <script>
+        const text = document.getElementById('text');
+        const timer = document.getElementById('timer');
+        const words = document.getElementById('words');
+
+        let timeLeft = 5;
+        let interval = null;
+        let started = false;
+
+        text.addEventListener('keypress', function(e) {
+            // Start timer on first key
+            if (!started) {
+                started = true;
+                startTimer();
+            }
+
+            // Reset timer
+            timeLeft = 5;
+            timer.textContent = '5';
+            timer.className = 'timer green';
+
+            // Update word count
+            updateWords();
+        });
+
+        function startTimer() {
+            interval = setInterval(function() {
+                timeLeft--;
+                timer.textContent = timeLeft;
+
+                // Change color
+                if (timeLeft <= 2) {
+                    timer.className = 'timer red';
+                } else if (timeLeft <= 3) {
+                    timer.className = 'timer orange';
+                } else {
+                    timer.className = 'timer green';
+                }
+
+                // Time's up
+                if (timeLeft <= 0) {
+                    deleteAll();
+                }
+            }, 1000);
+        }
+
+        function deleteAll() {
+            const wordCount = text.value.trim() ? text.value.trim().split(/\s+/).length : 0;
+
+            clearInterval(interval);
+            started = false;
+            timeLeft = 5;
+
+            text.value = '';
+            timer.textContent = '💀';
+            timer.className = 'timer red';
+
+            alert(`Time's up! ${wordCount} words deleted.\n\nTry again!`);
+
+            timer.textContent = '5';
+            timer.className = 'timer green';
+            words.textContent = 'Words: 0';
+        }
+
+        function updateWords() {
+            const count = text.value.trim() ? text.value.trim().split(/\s+/).length : 0;
+            words.textContent = `Words: ${count}`;
+        }
+    </script>
+</body>
+</html>
