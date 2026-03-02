@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Color Extractor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Image Color Extractor</h1>
+        <p>Upload an image to find top 10 colors</p>
+
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit">Extract Colors</button>
+        </form>
+
+        {% if colors %}
+        <div class="results">
+            <div class="image">
+                <img src="{{ image_url }}" alt="Uploaded">
+            </div>
+
+            <div class="colors">
+                {% for color in colors %}
+                <div class="color-card" onclick="copyColor('{{ color.hex }}')">
+                    <div class="color-box" style="background: {{ color.hex }}"></div>
+                    <div class="color-info">
+                        <span class="hex">{{ color.hex }}</span>
+                        <span class="percent">{{ color.percent }}%</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function copyColor(hex) {
+            navigator.clipboard.writeText(hex);
+            alert('Copied: ' + hex);
+        }
+    </script>
+</body>
+</html>
