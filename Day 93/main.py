@@ -5,6 +5,24 @@ import csv
 from bs4 import BeautifulSoup
 import time
 
+"""
+Realt.by Apartment Parser (Minsk, Belarus as the most popular region)
+
+Features:
+- Filter by number of rooms (1-6)
+- Filter by price range (USD)
+- Scrapes all pages automatically
+- Saves results to CSV file
+
+Output data:
+- Price (USD)
+- Rooms
+- Area (m²)
+- Floor / Total floors
+- Address
+
+Usage: Run script and enter filter parameters when prompted.
+"""
 
 def get_data(url):
     """Gets total count and list of apartments"""
