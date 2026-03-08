@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}F1 Shop{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700;900&display=swap"
+          rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='f1.png') }}" type="image/png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Titillium Web', sans-serif;
+            background: #15151e;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        nav {
+            background: #e10600;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 900;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            font-weight: 400;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.95em;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .cart-badge {
+            background: #fff;
+            color: #e10600;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+
+        /* Flash */
+        .flash {
+            background: #38383f;
+            text-align: center;
+            padding: 12px;
+            color: #fff;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title h1 {
+            font-size: 2.8em;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            color: #888;
+            font-size: 1.1em;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e1e28;
+            text-align: center;
+            padding: 25px;
+            color: #666;
+            margin-top: 60px;
+            border-top: 3px solid #e10600;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+<nav>
+    <div class="nav-container">
+        <a href="{{ url_for('index') }}" class="logo">F1 <span>SHOP</span></a>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">Products</a>
+            <a href="{{ url_for('cart') }}">
+                Cart
+                {% if cart_count > 0 %}
+                <span class="cart-badge">{{ cart_count }}</span>
+                {% endif %}
+            </a>
+        </div>
+    </div>
+</nav>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="flash">{{ messages[0] }}</div>
+{% endif %}
+{% endwith %}
+
+{% block content %}{% endblock %}
+
+<footer>
+    <p>© 2026 F1 Shop — Not affiliated with Formula 1</p>
+</footer>
+</body>
+</html>

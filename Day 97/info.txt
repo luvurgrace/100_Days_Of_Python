@@ -1,0 +1,8 @@
+# Test Visa
+4242424242424242
+
+# Test Mastercard
+5555555555554444
+
+# Additional info
+https://docs.stripe.com/testing#cards

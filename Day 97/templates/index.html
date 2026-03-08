@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+    .products {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .product-card {
+        background: #1e1e28;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .product-card img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+    }
+
+    .product-info {
+        padding: 25px;
+    }
+
+    .product-team {
+        color: #e10600;
+        font-size: 0.85em;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+    }
+
+    .product-name {
+        font-size: 1.3em;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .product-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .product-price {
+        font-size: 1.5em;
+        font-weight: 700;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 12px 25px;
+        background: #e10600;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.9em;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .btn:hover {
+        background: #ff1e1e;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-title">
+        <h1>Official Team Merchandise</h1>
+        <p>Gear up with your favorite F1 team</p>
+    </div>
+
+    <div class="products">
+        {% for product in products %}
+        <div class="product-card">
+            <img src="{{ product.image }}" alt="{{ product.name }}">
+            <div class="product-info">
+                <div class="product-team">{{ product.team }}</div>
+                <div class="product-name">{{ product.name }}</div>
+                <div class="product-bottom">
+                    <span class="product-price">${{ "%.2f"|format(product.price) }}</span>
+                    <a href="{{ url_for('add_to_cart', id=product.id) }}" class="btn">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

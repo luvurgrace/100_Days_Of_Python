@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+    .success {
+        text-align: center;
+        padding: 100px 20px;
+    }
+    
+    .success-icon {
+        font-size: 80px;
+        margin-bottom: 30px;
+    }
+    
+    .success h1 {
+        font-size: 2.5em;
+        margin-bottom: 15px;
+    }
+    
+    .success p {
+        color: #888;
+        font-size: 1.2em;
+        margin-bottom: 40px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="success">
+        <div class="success-icon">🏁</div>
+        <h1>Order Confirmed!</h1>
+        <p>Thank you for your purchase. Your F1 gear is on its way!</p>
+        <a href="{{ url_for('index') }}" class="btn">Continue Shopping</a>
+    </div>
+</div>
+{% endblock %}
