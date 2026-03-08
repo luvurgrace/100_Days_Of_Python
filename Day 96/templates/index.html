@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUSIC CHARTS // CYBERPUNK</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+        :root {
+            --neon-pink: #ff2a6d;
+            --neon-cyan: #05d9e8;
+            --neon-purple: #9d4edd;
+            --neon-yellow: #f0ff00;
+            --dark-bg: #0a0a0f;
+            --dark-card: #12121a;
+            --dark-border: #1a1a2e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--dark-bg);
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Scanlines Effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.1),
+                rgba(0, 0, 0, 0.1) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Grid Background */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                linear-gradient(90deg, rgba(5, 217, 232, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(5, 217, 232, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 3.5em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            animation: flicker 3s infinite;
+        }
+
+        .logo::before {
+            content: "MUSIC CHARTS";
+            position: absolute;
+            left: 2px;
+            top: 2px;
+            background: linear-gradient(90deg, var(--neon-pink), transparent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0.5;
+            animation: glitch1 2s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            92% { opacity: 1; }
+            93% { opacity: 0.8; }
+            94% { opacity: 1; }
+            95% { opacity: 0.9; }
+        }
+
+        @keyframes glitch1 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-1px, 1px); }
+        }
+
+        .subtitle {
+            font-family: 'Orbitron', monospace;
+            font-size: 1em;
+            color: var(--neon-cyan);
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            margin-top: 15px;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        /* Country Selector */
+        .country-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 40px;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(5, 217, 232, 0.05), rgba(255, 42, 109, 0.05));
+            border: 1px solid var(--dark-border);
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .country-selector::before {
+            content: "SELECT REGION";
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--dark-bg);
+            padding: 0 10px;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8em;
+            color: var(--neon-cyan);
+            letter-spacing: 3px;
+        }
+
+        .country-btn {
+            padding: 12px 20px;
+            background: transparent;
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            position: relative;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .country-btn:hover {
+            background: rgba(5, 217, 232, 0.1);
+            box-shadow: 0 0 20px rgba(5, 217, 232, 0.3), inset 0 0 20px rgba(5, 217, 232, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .country-btn.active {
+            background: var(--neon-pink);
+            border-color: var(--neon-pink);
+            color: #fff;
+            box-shadow: 0 0 30px rgba(255, 42, 109, 0.5);
+        }
+
+        /* Current Country */
+        .current-country {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8em;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
+            letter-spacing: 5px;
+        }
+
+        .current-country span {
+            color: var(--neon-pink);
+        }
+
+        /* Songs List */
+        .songs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .song-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            padding: 20px;
+            transition: all 0.3s;
+            position: relative;
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+        }
+
+        .song-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--neon-cyan);
+            transition: all 0.3s;
+        }
+
+        .song-card:hover {
+            transform: translateX(10px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(5, 217, 232, 0.2);
+        }
+
+        .song-card:hover::before {
+            width: 5px;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        /* Top 3 Special */
+        .song-card.top-1::before { background: var(--neon-yellow); box-shadow: 0 0 20px var(--neon-yellow); }
+        .song-card.top-2::before { background: var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan); }
+        .song-card.top-3::before { background: var(--neon-pink); box-shadow: 0 0 15px var(--neon-pink); }
+
+        .song-card.top-1 { border-color: rgba(240, 255, 0, 0.3); }
+        .song-card.top-2 { border-color: rgba(5, 217, 232, 0.3); }
+        .song-card.top-3 { border-color: rgba(255, 42, 109, 0.3); }
+
+        /* Rank */
+        .rank {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5em;
+            font-weight: 700;
+            min-width: 60px;
+            text-align: center;
+            color: #666;
+        }
+
+        .rank.top-1 { color: var(--neon-yellow); text-shadow: 0 0 20px var(--neon-yellow); font-size: 2em; }
+        .rank.top-2 { color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan); font-size: 1.8em; }
+        .rank.top-3 { color: var(--neon-pink); text-shadow: 0 0 15px var(--neon-pink); font-size: 1.6em; }
+
+        /* Image */
+        .song-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border: 2px solid var(--dark-border);
+            position: relative;
+        }
+
+        .song-card.top-1 .song-image { border-color: var(--neon-yellow); box-shadow: 0 0 15px rgba(240, 255, 0, 0.3); }
+        .song-card.top-2 .song-image { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(5, 217, 232, 0.3); }
+        .song-card.top-3 .song-image { border-color: var(--neon-pink); box-shadow: 0 0 15px rgba(255, 42, 109, 0.3); }
+
+        /* Song Info */
+        .song-info {
+            flex: 1;
+        }
+
+        .song-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .song-artist {
+            color: var(--neon-cyan);
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .song-album {
+            color: #555;
+            font-size: 0.9em;
+        }
+
+        /* Play Button */
+        .play-btn {
+            width: 55px;
+            height: 55px;
+            background: transparent;
+            border: 2px solid var(--neon-pink);
+            color: var(--neon-pink);
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            clip-path: polygon(15% 0, 100% 0, 100% 85%, 85% 100%, 0 100%, 0 15%);
+        }
+
+        .play-btn:hover {
+            background: var(--neon-pink);
+            color: #fff;
+            box-shadow: 0 0 25px var(--neon-pink);
+            transform: scale(1.1);
+        }
+
+        .play-btn.playing {
+            background: var(--neon-cyan);
+            border-color: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-cyan);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px var(--neon-cyan); }
+            50% { box-shadow: 0 0 40px var(--neon-cyan); }
+        }
+
+        /* Error */
+        .error {
+            background: rgba(255, 42, 109, 0.1);
+            border: 1px solid var(--neon-pink);
+            padding: 25px;
+            text-align: center;
+            margin: 20px 0;
+            font-family: 'Orbitron', monospace;
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid var(--dark-border);
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8em;
+            color: #444;
+            letter-spacing: 3px;
+        }
+
+        .footer span {
+            color: var(--neon-cyan);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .logo { font-size: 2em; }
+            .song-card { padding: 15px; gap: 15px; }
+            .song-image { width: 60px; height: 60px; }
+            .rank { min-width: 40px; font-size: 1.2em; }
+            .country-btn { padding: 8px 15px; font-size: 12px; }
+        }
+        .footer a {
+        color: inherit;          /* наследует цвет от родителя (span) */
+        text-decoration: none;   /* убирает подчёркивание */
+    }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1 class="logo">MUSIC CHARTS</h1>
+        <p class="subtitle">// Global Top Tracks //</p>
+    </div>
+
+    <!-- Country Selector -->
+    <div class="country-selector">
+        {% for code, name in countries.items() %}
+        <a href="?country={{ code }}"
+           class="country-btn {% if code == selected_country %}active{% endif %}">
+            {{ name }}
+        </a>
+        {% endfor %}
+    </div>
+
+    <h2 class="current-country">{{ country_name }} <span>TOP 25</span></h2>
+
+    {% if error %}
+    <div class="error">
+        <p>⚠ SYSTEM ERROR: {{ error }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Songs List -->
+    <div class="songs-list">
+        {% for song in songs %}
+        <div class="song-card {% if song.rank <= 3 %}top-{{ song.rank }}{% endif %}">
+                <span class="rank {% if song.rank <= 3 %}top-{{ song.rank }}{% endif %}">
+                    {% if song.rank == 1 %}#01
+                    {% elif song.rank == 2 %}#02
+                    {% elif song.rank == 3 %}#03
+                    {% elif song.rank < 10 %}#0{{ song.rank }}
+                    {% else %}#{{ song.rank }}
+                    {% endif %}
+                </span>
+
+            <img src="{{ song.image }}" alt="{{ song.title }}" class="song-image">
+
+            <div class="song-info">
+                <div class="song-title">{{ song.title }}</div>
+                <div class="song-artist">{{ song.artist }}</div>
+                <div class="song-album">{{ song.album }}</div>
+            </div>
+
+            {% if song.preview %}
+            <button class="play-btn" onclick="playPreview(this, '{{ song.preview }}')" title="Play preview">
+                ▶
+            </button>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="footer">
+        <p>DATA SOURCE: <span>iTunes Charts</span> // AUTHOR: <span><a
+                href="https://github.com/luvurgrace">Lutik Nikita</a></span></p>
+    </div>
+</div>
+
+<script>
+    let currentAudio = null;
+    let currentButton = null;
+
+    function playPreview(button, url) {
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+            if (currentButton) {
+                currentButton.textContent = '▶';
+                currentButton.classList.remove('playing');
+            }
+        }
+
+        if (currentButton === button) {
+            currentButton = null;
+            return;
+        }
+
+        currentAudio = new Audio(url);
+        currentButton = button;
+
+        currentAudio.play();
+        button.textContent = '⏸';
+        button.classList.add('playing');
+
+        currentAudio.onended = function() {
+            button.textContent = '▶';
+            button.classList.remove('playing');
+            currentAudio = null;
+            currentButton = null;
+        };
+    }
+</script>
+</body>
+</html>
