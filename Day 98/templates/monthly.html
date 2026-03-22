@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}Monthly Reports - Finance Tracker{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h4 mb-1">Monthly Reports</h1>
+        <p class="text-muted mb-0">Track your income and expenses by month</p>
+    </div>
+    <a href="{{ url_for('add_monthly') }}" class="btn btn-primary">
+        <i class="bi bi-plus-lg me-1"></i> Add Month
+    </a>
+</div>
+
+{% if reports %}
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+            <tr>
+                <th>Month</th>
+                <th class="text-end">Income</th>
+                <th class="text-end">Expenses</th>
+                <th class="text-end">Savings</th>
+                <th class="text-center">Status</th>
+                <th class="text-end" style="width: 100px;">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for report in reports %}
+            <tr>
+                <td>
+                    <div class="fw-medium">{{ months[report.month - 1] }}</div>
+                    <small class="text-muted">{{ report.year }}</small>
+                </td>
+                <td class="text-end">
+                    <div class="fw-medium">${{ "{:,.0f}".format(report.income_fact) }}</div>
+                    {% if report.income_plan > 0 and report.income_fact != report.income_plan %}
+                    <small class="text-muted">plan ${{ "{:,.0f}".format(report.income_plan) }}</small>
+                    {% endif %}
+                </td>
+                <td class="text-end">
+                    <div class="fw-medium">${{ "{:,.0f}".format(report.total_fact) }}</div>
+                    {% if report.total_plan > 0 and report.total_fact != report.total_plan %}
+                    <small class="text-muted">plan ${{ "{:,.0f}".format(report.total_plan) }}</small>
+                    {% endif %}
+                </td>
+                <td class="text-end">
+                        <span class="fw-medium {% if report.savings_fact >= 0 %}text-success{% else %}text-danger{% endif %}">
+                            ${{ "{:,.0f}".format(report.savings_fact) }}
+                        </span>
+                </td>
+                <td class="text-center">
+                    {% if report.total_plan > 0 %}
+                    {% set budget_percent = (report.total_fact / report.total_plan * 100) if report.total_plan > 0 else
+                    0 %}
+                    {% if budget_percent <= 80 %}
+                    <span class="badge bg-success-subtle text-success">On Track</span>
+                    {% elif budget_percent <= 100 %}
+                    <span class="badge bg-warning-subtle text-warning">Near Limit</span>
+                    {% else %}
+                    <span class="badge bg-danger-subtle text-danger">Over Budget</span>
+                    {% endif %}
+                    {% else %}
+                    <span class="badge bg-secondary-subtle text-secondary">No Plan</span>
+                    {% endif %}
+                </td>
+                <td class="text-end">
+                    <div class="btn-group btn-group-sm">
+                        <a href="{{ url_for('add_monthly', copy_from=report.year ~ '-' ~ report.month) }}"
+                           class="btn btn-outline-secondary" title="Copy plan to new month">
+                            <i class="bi bi-copy"></i>
+                        </a>
+                        <a href="{{ url_for('edit_monthly', id=report.id) }}"
+                           class="btn btn-outline-secondary" title="Edit">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a href="{{ url_for('delete_monthly', id=report.id) }}"
+                           class="btn btn-outline-secondary text-danger"
+                           onclick="return confirm('Delete {{ months[report.month - 1] }} {{ report.year }}?')"
+                           title="Delete">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Quick Stats -->
+<div class="row g-3 mt-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center py-3">
+                <div class="text-muted small mb-1">Total Reports</div>
+                <div class="h4 mb-0">{{ reports|length }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center py-3">
+                <div class="text-muted small mb-1">Avg Monthly Savings</div>
+                {% set avg_savings = (reports|sum(attribute='savings_fact') / reports|length) if reports|length > 0 else
+                0 %}
+                <div class="h4 mb-0 {% if avg_savings >= 0 %}text-success{% else %}text-danger{% endif %}">
+                    ${{ "{:,.0f}".format(avg_savings) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center py-3">
+                <div class="text-muted small mb-1">Total Saved</div>
+                {% set total_savings = reports|sum(attribute='savings_fact') %}
+                <div class="h4 mb-0 {% if total_savings >= 0 %}text-success{% else %}text-danger{% endif %}">
+                    ${{ "{:,.0f}".format(total_savings) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<!-- Empty State -->
+<div class="card">
+    <div class="card-body empty-state">
+        <div class="empty-state-icon">
+            <i class="bi bi-calendar3"></i>
+        </div>
+        <h5 class="mb-2">No monthly reports yet</h5>
+        <p class="text-muted mb-3">Start tracking by adding your first month</p>
+        <a href="{{ url_for('add_monthly') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i> Add First Month
+        </a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

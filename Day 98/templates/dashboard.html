@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Finance Tracker{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h4 mb-1">{{ current_month }} {{ current_year }}</h1>
+        <p class="text-muted mb-0">Welcome back, {{ current_user.username }}</p>
+    </div>
+    {% if not report %}
+    <a href="{{ url_for('add_monthly') }}" class="btn btn-primary">
+        <i class="bi bi-plus-lg me-1"></i> Add Data
+    </a>
+    {% endif %}
+</div>
+
+{% if report %}
+<!-- Stats Row -->
+<div class="row g-3 mb-4">
+    <!-- Income -->
+    <div class="col-md-4">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between">
+                    <div>
+                        <div class="stat-label mb-2">Income</div>
+                        <div class="stat-value">${{ "{:,.0f}".format(report.income_fact) }}</div>
+                        {% if report.income_plan > 0 %}
+                        <div class="stat-sub mt-1">
+                            {% set income_diff = report.income_fact - report.income_plan %}
+                            {% if income_diff >= 0 %}
+                            <span class="text-success">+${{ "{:,.0f}".format(income_diff) }}</span>
+                            {% else %}
+                            <span class="text-danger">${{ "{:,.0f}".format(income_diff) }}</span>
+                            {% endif %}
+                            vs plan
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="stat-icon income">
+                        <i class="bi bi-arrow-down-left"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expenses -->
+    <div class="col-md-4">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between">
+                    <div>
+                        <div class="stat-label mb-2">Expenses</div>
+                        <div class="stat-value">${{ "{:,.0f}".format(report.total_fact) }}</div>
+                        {% if report.total_plan > 0 %}
+                        <div class="stat-sub mt-1">
+                            {% set expense_diff = report.total_fact - report.total_plan %}
+                            {% if expense_diff <= 0 %}
+                            <span class="text-success">${{ "{:,.0f}".format(expense_diff) }}</span>
+                            {% else %}
+                            <span class="text-danger">+${{ "{:,.0f}".format(expense_diff) }}</span>
+                            {% endif %}
+                            vs plan
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="stat-icon expense">
+                        <i class="bi bi-arrow-up-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Savings -->
+    <div class="col-md-4">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between">
+                    <div>
+                        <div class="stat-label mb-2">Savings</div>
+                        <div class="stat-value {% if report.savings_fact >= 0 %}text-success{% else %}text-danger{% endif %}">
+                            ${{ "{:,.0f}".format(report.savings_fact) }}
+                        </div>
+                        {% if report.income_fact > 0 %}
+                        <div class="stat-sub mt-1">
+                            {{ "{:.0f}".format(report.savings_fact / report.income_fact * 100) }}% of income
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="stat-icon savings">
+                        <i class="bi bi-piggy-bank"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="row g-4">
+    <!-- Expenses by Category -->
+    <div class="col-lg-8">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Expenses by Category</span>
+                <a href="{{ url_for('edit_monthly', id=report.id) }}" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-pencil me-1"></i> Edit
+                </a>
+            </div>
+            <div class="card-body">
+                {% if report.total_fact > 0 or report.total_plan > 0 %}
+                {% for cat in categories %}
+                {% set plan_val = report['plan_' + cat.key] %}
+                {% set fact_val = report['fact_' + cat.key] %}
+                {% if plan_val > 0 or fact_val > 0 %}
+                <div class="category-row">
+                    <div class="category-icon">
+                        <i class="bi {{ cat.icon }}"></i>
+                    </div>
+                    <div class="category-info">
+                        <div class="category-name">{{ cat.name }}</div>
+                        {% if plan_val > 0 %}
+                        {% set percent = (fact_val / plan_val * 100) %}
+                        <div class="progress mt-2">
+                            <div class="progress-bar {% if percent > 100 %}bg-danger{% elif percent > 80 %}bg-warning{% else %}bg-success{% endif %}"
+                                 style="width: {{ min(percent, 100) }}%"></div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="category-amounts">
+                        <div class="category-fact">${{ "{:,.0f}".format(fact_val) }}</div>
+                        {% if plan_val > 0 %}
+                        <div class="category-plan">of ${{ "{:,.0f}".format(plan_val) }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <div class="text-center text-muted py-4">
+                    <p class="mb-2">No expenses recorded yet</p>
+                    <a href="{{ url_for('edit_monthly', id=report.id) }}" class="btn btn-sm btn-primary">Add
+                        Expenses</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Goals -->
+    <div class="col-lg-4">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Savings Goals</span>
+                <a href="{{ url_for('goals') }}" class="text-muted small">View all</a>
+            </div>
+            <div class="card-body">
+                {% if goals %}
+                {% for goal in goals %}
+                <div class="goal-item">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="goal-name">
+    <i class="bi {{ goal.icon }} me-1"></i>{{ goal.name }}
+</span>
+                        <span class="text-muted small">{{ "{:.0f}".format(goal.progress) }}%</span>
+                    </div>
+                    <div class="progress mb-1">
+                        <div class="progress-bar" style="width: {{ goal.progress }}%"></div>
+                    </div>
+                    <div class="goal-amount">
+                        ${{ "{:,.0f}".format(goal.current_amount) }} / ${{ "{:,.0f}".format(goal.target_amount) }}
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="text-center text-muted py-3">
+                    <p class="mb-2 small">No goals yet</p>
+                    <a href="{{ url_for('goals') }}" class="btn btn-sm btn-outline-primary">Create Goal</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<!-- Empty State -->
+<div class="card">
+    <div class="card-body empty-state">
+        <div class="empty-state-icon">
+            <i class="bi bi-calendar-plus"></i>
+        </div>
+        <h5 class="mb-2">No data for {{ current_month }}</h5>
+        <p class="text-muted mb-3">Start tracking your finances by adding your income and expenses plan</p>
+        <a href="{{ url_for('add_monthly') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i> Add Monthly Data
+        </a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

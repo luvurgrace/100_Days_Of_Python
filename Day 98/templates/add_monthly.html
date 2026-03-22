@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Month - Finance Tracker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <!-- Header -->
+        <div class="mb-4">
+            <a href="{{ url_for('monthly') }}" class="text-muted text-decoration-none small">
+                <i class="bi bi-arrow-left me-1"></i> Back to Monthly
+            </a>
+            <h1 class="h4 mt-2 mb-1">Add Monthly Report</h1>
+            <p class="text-muted mb-0">Set your budget plan and track actual spending</p>
+        </div>
+
+        <form method="POST">
+            <!-- Month Selection -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="bi bi-calendar3 me-2"></i>Select Period
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="month" class="form-label">Month</label>
+                            <select class="form-select" id="month" name="month" required>
+                                {% for i in range(12) %}
+                                <option value="{{ i + 1 }}" {% if i + 1 == current_month %}selected{% endif %}>
+                                    {{ months[i] }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="year" class="form-label">Year</label>
+                            <select class="form-select" id="year" name="year" required>
+                                {% for y in range(current_year - 2, current_year + 2) %}
+                                <option value="{{ y }}" {% if y == current_year %}selected{% endif %}>{{ y }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    {% if previous_report %}
+                    <div class="alert alert-info mt-3 mb-0 small">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Plan values copied from {{ months[previous_report.month - 1] }} {{ previous_report.year }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Income -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="bi bi-wallet2 me-2"></i>Income
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="income_plan" class="form-label">
+                                Plan
+                                <span class="text-muted fw-normal">(expected)</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" step="0.01" class="form-control" id="income_plan"
+                                       name="income_plan"
+                                       value="{{ previous_report.income_plan if previous_report else '' }}"
+                                       placeholder="0">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="income_fact" class="form-label">
+                                Actual
+                                <span class="text-muted fw-normal">(received)</span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" step="0.01" class="form-control" id="income_fact"
+                                       name="income_fact" placeholder="0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expenses -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="bi bi-credit-card me-2"></i>Expenses by Category
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle mb-0">
+                            <thead class="border-bottom">
+                                <tr>
+                                    <th class="ps-3">Category</th>
+                                    <th style="width: 180px;">Plan</th>
+                                    <th style="width: 180px;">Actual</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cat in categories %}
+                                <tr>
+                                    <td class="ps-3">
+                                        <i class="bi {{ cat.icon }} text-muted me-2"></i>
+                                        {{ cat.name }}
+                                    </td>
+                                    <td>
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" step="0.01" class="form-control"
+                                                   name="plan_{{ cat.key }}"
+                                                   value="{{ previous_report['plan_' + cat.key] if previous_report else '' }}"
+                                                   placeholder="0">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" step="0.01" class="form-control"
+                                                   name="fact_{{ cat.key }}" placeholder="0">
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg me-1"></i> Save Report
+                </button>
+                <a href="{{ url_for('monthly') }}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

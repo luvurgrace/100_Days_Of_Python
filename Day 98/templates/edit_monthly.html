@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit {{ months[report.month - 1] }} {{ report.year }} - Finance Tracker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <!-- Header -->
+        <div class="mb-4">
+            <a href="{{ url_for('monthly') }}" class="text-muted text-decoration-none small">
+                <i class="bi bi-arrow-left me-1"></i> Back to Monthly
+            </a>
+            <h1 class="h4 mt-2 mb-1">{{ months[report.month - 1] }} {{ report.year }}</h1>
+            <p class="text-muted mb-0">Edit your budget and actual spending</p>
+        </div>
+
+        <form method="POST">
+            <!-- Summary Cards -->
+            <div class="row g-3 mb-4">
+                <div class="col-4">
+                    <div class="card bg-light border-0">
+                        <div class="card-body py-3 text-center">
+                            <div class="text-muted small">Total Plan</div>
+                            <div class="h5 mb-0">${{ "{:,.0f}".format(report.income_plan - report.total_plan) }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="card bg-light border-0">
+                        <div class="card-body py-3 text-center">
+                            <div class="text-muted small">Total Actual</div>
+                            <div class="h5 mb-0">${{ "{:,.0f}".format(report.savings_fact) }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="card border-0 {% if report.savings_fact >= report.savings_plan %}bg-success-subtle{% else %}bg-danger-subtle{% endif %}">
+                        <div class="card-body py-3 text-center">
+                            <div class="text-muted small">Difference</div>
+                            {% set total_diff = report.savings_fact - report.savings_plan %}
+                            <div class="h5 mb-0 {% if total_diff >= 0 %}text-success{% else %}text-danger{% endif %}">
+                                {% if total_diff >= 0 %}+{% endif %}${{ "{:,.0f}".format(total_diff) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Income -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="bi bi-wallet2 me-2"></i>Income
+                </div>
+                <div class="card-body">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-sm-4">
+                            <label for="income_plan" class="form-label">Plan</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" step="0.01" class="form-control" id="income_plan"
+                                       name="income_plan" value="{{ report.income_plan }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="income_fact" class="form-label">Actual</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" step="0.01" class="form-control" id="income_fact"
+                                       name="income_fact" value="{{ report.income_fact }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="text-center py-2">
+                                {% set income_diff = report.income_fact - report.income_plan %}
+                                {% if report.income_plan == 0 and report.income_fact == 0 %}
+                                <span class="text-muted">—</span>
+                                {% elif income_diff > 0 %}
+                                <span class="text-success fw-medium">+${{ "{:,.0f}".format(income_diff) }}</span>
+                                {% elif income_diff < 0 %}
+                                <span class="text-danger fw-medium">-${{ "{:,.0f}".format(income_diff|abs) }}</span>
+                                {% else %}
+                                <span class="text-muted">$0</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expenses -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="bi bi-credit-card me-2"></i>Expenses
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="ps-3">Category</th>
+                                    <th style="width: 150px;">Plan</th>
+                                    <th style="width: 150px;">Actual</th>
+                                    <th class="text-end pe-3" style="width: 100px;">Diff</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cat in categories %}
+                                {% set plan_val = report['plan_' + cat.key] %}
+                                {% set fact_val = report['fact_' + cat.key] %}
+                                {% set diff = fact_val - plan_val %}
+                                <tr>
+                                    <td class="ps-3">
+                                        <i class="bi {{ cat.icon }} text-muted me-2"></i>{{ cat.name }}
+                                    </td>
+                                    <td>
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" step="0.01" class="form-control"
+                                                   name="plan_{{ cat.key }}" value="{{ plan_val }}">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" step="0.01" class="form-control"
+                                                   name="fact_{{ cat.key }}" value="{{ fact_val }}">
+                                        </div>
+                                    </td>
+                                    <td class="text-end pe-3">
+                                        {% if plan_val == 0 and fact_val == 0 %}
+                                        <span class="text-muted">—</span>
+                                        {% elif diff > 0 %}
+                                        <span class="text-danger">+${{ "%.0f"|format(diff) }}</span>
+                                        {% elif diff < 0 %}
+                                        <span class="text-success">-${{ "%.0f"|format(diff|abs) }}</span>
+                                        {% else %}
+                                        <span class="text-muted">$0</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot class="border-top">
+                                <tr>
+                                    <td class="ps-3 fw-medium">Total Expenses</td>
+                                    <td class="fw-medium">${{ "{:,.0f}".format(report.total_plan) }}</td>
+                                    <td class="fw-medium">${{ "{:,.0f}".format(report.total_fact) }}</td>
+                                    <td class="text-end pe-3">
+                                        {% set exp_diff = report.total_fact - report.total_plan %}
+                                        {% if exp_diff > 0 %}
+                                        <span class="text-danger fw-medium">+${{ "{:,.0f}".format(exp_diff) }}</span>
+                                        {% elif exp_diff < 0 %}
+                                        <span class="text-success fw-medium">-${{ "{:,.0f}".format(exp_diff|abs) }}</span>
+                                        {% else %}
+                                        <span class="text-muted">$0</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex justify-content-between">
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-1"></i> Save Changes
+                    </button>
+                    <a href="{{ url_for('monthly') }}" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+                <a href="{{ url_for('delete_monthly', id=report.id) }}"
+                   class="btn btn-outline-danger"
+                   onclick="return confirm('Delete this report?')">
+                    <i class="bi bi-trash me-1"></i> Delete
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

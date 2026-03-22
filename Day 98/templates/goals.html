@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+
+{% block title %}Goals - Finance Tracker{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h4 mb-1">Savings Goals</h1>
+        <p class="text-muted mb-0">Track your progress towards financial goals</p>
+    </div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGoalModal">
+        <i class="bi bi-plus-lg me-1"></i> New Goal
+    </button>
+</div>
+
+<!-- Summary Cards -->
+{% if active_goals %}
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body py-3 text-center">
+                <div class="text-muted small mb-1">Active Goals</div>
+                <div class="h4 mb-0">{{ active_goals|length }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body py-3 text-center">
+                <div class="text-muted small mb-1">Total Target</div>
+                <div class="h4 mb-0">${{ "{:,.0f}".format(active_goals|sum(attribute='target_amount')) }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body py-3 text-center">
+                <div class="text-muted small mb-1">Total Saved</div>
+                <div class="h4 mb-0 text-success">${{ "{:,.0f}".format(active_goals|sum(attribute='current_amount'))
+                    }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Active Goals -->
+{% if active_goals %}
+<div class="row g-4 mb-4">
+    {% for goal in active_goals %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 goal-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="goal-icon">
+                        <i class="bi {{ goal.icon }}"></i>
+                    </div>
+                    <a href="{{ url_for('delete_goal', id=goal.id) }}"
+                       class="btn btn-sm btn-link text-muted p-0"
+                       onclick="return confirm('Delete this goal?')"
+                       title="Delete goal">
+                        <i class="bi bi-x-lg"></i>
+                    </a>
+                </div>
+
+                <h5 class="mb-1">{{ goal.name }}</h5>
+                <p class="text-muted small mb-3">
+                    ${{ "{:,.0f}".format(goal.remaining) }} remaining
+                </p>
+
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="small text-muted">Progress</span>
+                    <span class="small fw-medium">{{ "{:.0f}".format(goal.progress) }}%</span>
+                </div>
+                <div class="progress mb-3" style="height: 8px;">
+                    <div class="progress-bar bg-success" style="width: {{ goal.progress }}%"></div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="fw-medium">${{ "{:,.0f}".format(goal.current_amount) }}</span>
+                    <span class="text-muted">of ${{ "{:,.0f}".format(goal.target_amount) }}</span>
+                </div>
+
+                <!-- Quick Add/Subtract Form -->
+                <form method="POST" action="{{ url_for('contribute_goal', id=goal.id) }}" class="d-flex gap-2">
+                    <button type="submit" name="action" value="subtract" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-dash"></i>
+                    </button>
+                    <div class="input-group input-group-sm flex-grow-1">
+                        <span class="input-group-text">$</span>
+                        <input type="number" step="0.01" min="0" class="form-control"
+                               name="amount" placeholder="0" required>
+                    </div>
+                    <button type="submit" name="action" value="add" class="btn btn-sm btn-success">
+                        <i class="bi bi-plus"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<!-- Empty State -->
+<div class="card mb-4">
+    <div class="card-body empty-state">
+        <div class="empty-state-icon">
+            <i class="bi bi-flag"></i>
+        </div>
+        <h5 class="mb-2">No active goals</h5>
+        <p class="text-muted mb-3">Set a savings goal to start tracking your progress</p>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGoalModal">
+            <i class="bi bi-plus-lg me-1"></i> Create First Goal
+        </button>
+    </div>
+</div>
+{% endif %}
+
+<!-- Completed Goals -->
+{% if completed_goals %}
+<div class="card">
+    <div class="card-header">
+        <i class="bi bi-check-circle me-2"></i>Completed Goals
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                <tr>
+                    <th class="ps-3">Goal</th>
+                    <th class="text-end">Amount</th>
+                    <th class="text-end pe-3" style="width: 80px;"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for goal in completed_goals %}
+                <tr>
+                    <td class="ps-3">
+                        <i class="bi {{ goal.icon }} text-success me-2"></i>
+                        {{ goal.name }}
+                    </td>
+                    <td class="text-end text-success fw-medium">
+                        ${{ "{:,.0f}".format(goal.target_amount) }}
+                    </td>
+                    <td class="text-end pe-3">
+                        <a href="{{ url_for('delete_goal', id=goal.id) }}"
+                           class="btn btn-sm btn-link text-muted"
+                           onclick="return confirm('Delete this goal?')">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Add Goal Modal -->
+<div class="modal fade" id="addGoalModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('add_goal') }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">New Savings Goal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Goal Name</label>
+                        <input type="text" class="form-control" id="name" name="name"
+                               placeholder="e.g., New Car, Vacation, Emergency Fund" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="target_amount" class="form-label">Target Amount</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" step="0.01" min="1" class="form-control"
+                                   id="target_amount" name="target_amount" placeholder="10000" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-0">
+                        <label class="form-label">Icon</label>
+                        <div class="icon-selector">
+                            {% set goal_icons = [
+                            ('bi-star', 'Star'),
+                            ('bi-house', 'House'),
+                            ('bi-car-front', 'Car'),
+                            ('bi-airplane', 'Travel'),
+                            ('bi-laptop', 'Tech'),
+                            ('bi-phone', 'Phone'),
+                            ('bi-gift', 'Gift'),
+                            ('bi-heart', 'Health'),
+                            ('bi-mortarboard', 'Education'),
+                            ('bi-briefcase', 'Business'),
+                            ('bi-piggy-bank', 'Savings'),
+                            ('bi-shield-check', 'Emergency'),
+                            ('bi-trophy', 'Achievement'),
+                            ('bi-gem', 'Luxury'),
+                            ('bi-camera', 'Camera'),
+                            ('bi-bicycle', 'Bike')
+                            ] %}
+                            {% for icon_class, icon_name in goal_icons %}
+                            <label class="icon-option">
+                                <input type="radio" name="icon" value="{{ icon_class }}"
+                                       {% if loop.first %}checked{% endif %}>
+                                <span class="icon-box" title="{{ icon_name }}">
+                                    <i class="bi {{ icon_class }}"></i>
+                                </span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Goal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

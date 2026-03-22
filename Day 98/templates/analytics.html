@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+
+{% block title %}Analytics {{ current_year }} - Finance Tracker{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h4 mb-1">Analytics</h1>
+        <p class="text-muted mb-0">Your financial overview for {{ current_year }}</p>
+    </div>
+    <div class="d-flex gap-2">
+        {% for year in years %}
+        <a href="{{ url_for('analytics', year=year) }}"
+           class="btn btn-sm {% if year == current_year %}btn-primary{% else %}btn-outline-secondary{% endif %}">
+            {{ year }}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Year Summary -->
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="text-muted small mb-1">Total Income</div>
+                        <div class="h4 mb-0">${{ "{:,.0f}".format(total_income) }}</div>
+                    </div>
+                    <div class="stat-icon income">
+                        <i class="bi bi-arrow-down-left"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="text-muted small mb-1">Total Expenses</div>
+                        <div class="h4 mb-0">${{ "{:,.0f}".format(total_expense) }}</div>
+                    </div>
+                    <div class="stat-icon expense">
+                        <i class="bi bi-arrow-up-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="text-muted small mb-1">Total Savings</div>
+                        <div class="h4 mb-0 {% if total_savings >= 0 %}text-success{% else %}text-danger{% endif %}">
+                            ${{ "{:,.0f}".format(total_savings) }}
+                        </div>
+                        {% if total_income > 0 %}
+                        <div class="text-muted small">{{ "{:.0f}".format(total_savings / total_income * 100) }}% saved
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="stat-icon savings">
+                        <i class="bi bi-piggy-bank"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if total_income > 0 or total_expense > 0 %}
+<div class="row g-4">
+    <!-- Monthly Visual Chart (CSS only) -->
+    <div class="col-lg-8">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Monthly Overview</span>
+                <div class="d-flex gap-3 small">
+                    <span><span class="legend-dot bg-success"></span> Income</span>
+                    <span><span class="legend-dot bg-danger"></span> Expenses</span>
+                </div>
+            </div>
+            <div class="card-body">
+                {% for data in months_data %}
+                <div class="chart-row mb-3">
+                    <div class="chart-label">{{ data.month }}</div>
+                    <div class="chart-bars">
+                        <div class="chart-bar-wrapper">
+                            <div class="chart-bar bg-success"
+                                 style="width: {{ (data.income / max_value * 100) if max_value > 0 else 0 }}%"
+                                 title="Income: ${{ '{:,.0f}'.format(data.income) }}">
+                            </div>
+                            {% if data.income > 0 %}
+                            <span class="chart-bar-value">${{ '{:,.0f}'.format(data.income) }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="chart-bar-wrapper">
+                            <div class="chart-bar bg-danger"
+                                 style="width: {{ (data.expense / max_value * 100) if max_value > 0 else 0 }}%"
+                                 title="Expenses: ${{ '{:,.0f}'.format(data.expense) }}">
+                            </div>
+                            {% if data.expense > 0 %}
+                            <span class="chart-bar-value">${{ '{:,.0f}'.format(data.expense) }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="chart-savings">
+                        {% if data.income > 0 or data.expense > 0 %}
+                        <span class="{% if data.savings >= 0 %}text-success{% else %}text-danger{% endif %}">
+                            {% if data.savings >= 0 %}+{% endif %}${{ "{:,.0f}".format(data.savings) }}
+                        </span>
+                        {% else %}
+                        <span class="text-muted">—</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Expenses by Category -->
+    <div class="col-lg-4">
+        <div class="card h-100">
+            <div class="card-header">
+                Expenses by Category
+            </div>
+            <div class="card-body">
+                {% if total_expense > 0 %}
+                {% for cat in category_totals %}
+                {% if cat.amount > 0 %}
+                <div class="d-flex align-items-center mb-3">
+                    <div class="category-icon me-3">
+                        <i class="bi {{ cat.icon }}"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="small">{{ cat.name }}</span>
+                            <span class="small text-muted">{{ cat.percent }}%</span>
+                        </div>
+                        <div class="progress" style="height: 4px;">
+                            <div class="progress-bar" style="width: {{ cat.percent }}%"></div>
+                        </div>
+                    </div>
+                    <div class="ms-3 text-end" style="min-width: 70px;">
+                        <span class="fw-medium small">${{ "{:,.0f}".format(cat.amount) }}</span>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <div class="text-center text-muted py-4">
+                    <p class="mb-0">No expense data</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Monthly Breakdown Table -->
+<div class="card mt-4">
+    <div class="card-header">
+        Monthly Breakdown
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                <tr>
+                    <th class="ps-3">Month</th>
+                    <th class="text-end">Income</th>
+                    <th class="text-end">Expenses</th>
+                    <th class="text-end">Savings</th>
+                    <th class="text-end pe-3">
+                        Rate
+                        <i class="bi bi-question-circle text-muted ms-1"
+                           title="Savings Rate — percentage of income saved this month"></i>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for data in months_data %}
+                <tr {% if data.income== 0 and data.expense== 0 %}class="text-muted" {% endif %}>
+                    <td class="ps-3">{{ data.month }}</td>
+                    <td class="text-end">
+                        {% if data.income > 0 %}${{ "{:,.0f}".format(data.income) }}{% else %}—{% endif %}
+                    </td>
+                    <td class="text-end">
+                        {% if data.expense > 0 %}${{ "{:,.0f}".format(data.expense) }}{% else %}—{% endif %}
+                    </td>
+                    <td class="text-end">
+                        {% if data.income > 0 or data.expense > 0 %}
+                        <span class="{% if data.savings >= 0 %}text-success{% else %}text-danger{% endif %}">
+                                ${{ "{:,.0f}".format(data.savings) }}
+                            </span>
+                        {% else %}—{% endif %}
+                    </td>
+                    <td class="text-end pe-3">
+                        {% if data.income > 0 %}
+                        <span class="badge {% if data.savings >= 0 %}bg-success-subtle text-success{% else %}bg-danger-subtle text-danger{% endif %}">
+                                {{ "{:.0f}".format(data.savings / data.income * 100) }}%
+                            </span>
+                        {% else %}—{% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<!-- Empty State for Analytics -->
+<div class="card">
+    <div class="card-body empty-state">
+        <div class="empty-state-icon">
+            <i class="bi bi-graph-up"></i>
+        </div>
+        <h5 class="mb-2">No data for {{ current_year }}</h5>
+        <p class="text-muted mb-3">Add monthly reports to see your analytics</p>
+        <a href="{{ url_for('add_monthly') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>Add Monthly Report
+        </a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
