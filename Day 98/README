@@ -1,0 +1,6 @@
+I automated personal finance tracking with a simple web app built on Flask.
+Each month, users enter their planned and actual income and expenses across 8 categories.
+The app automatically compares the results, generates yearly analytics and charts, and tracks progress toward savings goals.
+All data is private for each user, with registration and login functionality.
+The interface is minimalist, using Bootstrap 5.
+This project eliminates manual calculations and helps users quickly analyze their finances.
